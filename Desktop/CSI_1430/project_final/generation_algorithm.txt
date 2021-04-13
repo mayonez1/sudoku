@@ -1,0 +1,24 @@
+Algorithm: void Square::create(vector<vector<point>> &grid)
+
+STEP 1 - START
+STEP 2 - def vector<vector<vector<char>>> availableNums, populate availableNums (with characters 1-9 for every point in grid)
+STEP 3 - for [i in grid row]: for [n in grid column]:
+    a. check if availableNums is empty
+        if empty:
+            replenish availableNums at location [i][n]
+            if n is first column in row:
+                backtrack to the last column of the previous row
+            otherwise:
+                backtrack to the previous column
+        otherwise:
+            move on to b
+    b. get a random position in the availableNums vector
+    c. numberToGuess = availableNums[i][n][this->random position]
+    d. check if numberToGuess is unique in the row, column, and cell
+        if unique:
+            grid[i][n] = numberToGuess
+        otherwise:
+            erase availableNums[i][n][this->random position]
+            return to 3a and try again
+
+STEP 4 - END
