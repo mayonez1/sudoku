@@ -369,7 +369,7 @@ void Square::create(){
 
                 //Otherwise, erase that number from the availableNums vector and try again
                 else{
-                    availableNums[i][n].erase(availableNums[i][n].begin() + pos);
+                    availableNums[i][n].erase(availableNums[i][n].begin() + pos); //Error Here
                     n -= 1;
                 }
             }
