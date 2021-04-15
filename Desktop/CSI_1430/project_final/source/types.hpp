@@ -11,7 +11,7 @@
 
 namespace SUDK{
 
-    typedef struct{
+    typedef struct Point{
         char val;
         bool canModify, modified;
         int row, col;
@@ -71,6 +71,7 @@ namespace SUDK{
         }
     };
 
+    //Incorrect filetype or location
     struct bad_file : public std::exception{
         const char* what() const throw(){
             return "Invalid filepath or incorrect file type, please ensure the existence of the .SUDK file";

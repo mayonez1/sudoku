@@ -6,12 +6,10 @@ CANMOD 1
 MODDED 0
 VAL 8
 }
-*This is a comment*
 {
 ROW 4
 COL 3
 CANMOD 1
-*This is also a comment*
 MODDED 1
 VAL 3
 }

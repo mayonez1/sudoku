@@ -15,6 +15,3 @@ If the point can be modified - CANMOD, CANMODIFY
 If the point has been modified - MODDED, MODIFIED, MOD
 The point character/value - VAL, VALUE
 
-
-Comments can be written anywhere in the file and are written with an asterisk marking the beginning and end of the comment. For example: *this is a comment*
-

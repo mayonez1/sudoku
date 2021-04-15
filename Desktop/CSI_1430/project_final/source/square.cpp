@@ -14,15 +14,22 @@ using namespace SUDK;
 
 //Constructor definitions
 Square::Square(){
-    loadGame = false;
-    init_grd(grid);
-    difficulty = 12;
-}
+    p.val = '0';
+    p.canModify = false;
+    p.modified = false;
+    p.row = 0;
+    p.col = 0;
+    vector<point> holder;
 
-Square::Square(bool load){
-    loadGame = load;
-    init_grd(grid);
-    difficulty = 12;
+    for (int i = 0; i < 9; i++){
+        for (int n = 0; n < 9; n++){
+            p.row = i;
+            p.col = n;
+            holder.push_back(p);
+        }
+        grid.push_back(holder);
+        holder.clear();
+    }
 }
 
 //Accessor Definitions
@@ -38,6 +45,7 @@ void Square::setGrid(grd x){
 //Loading/Saving definitions
 grd Square::readSUDK(string filePath){
     grd ret;
+    init_grd(ret);
     bool error;
     ifstream file;
     string extension = ".SUDK";
@@ -98,7 +106,10 @@ void Square::load(string filePath){
     }
 
     if (!error){
-        setGrid(g);
+        grid = g;
+    }
+    else {
+        //Return to menu or Reset Program
     }
 
 }
@@ -106,20 +117,19 @@ void Square::load(string filePath){
 void Square::save(){
     ofstream ofile("sudoku.sudk");
     int m, cm;
-    grd g = getGrid();
     ofile << "#START" << '\n';
 
     for (int i = 0; i < 9; i++){
         for (int n = 0; n < 9; n++){
-            cm = (g[i][n].canModify) ? 1 : 0;
-            m = (g[i][n].modified) ? 1 : 0;
+            cm = (grid[i][n].canModify) ? 1 : 0;
+            m = (grid[i][n].modified) ? 1 : 0;
 
             ofile << '{' << '\n';
-            ofile << "ROW " << g[i][n].row << '\n';
-            ofile << "COL " << g[i][n].col << '\n';
+            ofile << "ROW " << grid[i][n].row << '\n';
+            ofile << "COL " << grid[i][n].col << '\n';
             ofile << "CANMOD " << cm << '\n';
             ofile << "MODDED " << m << '\n';
-            ofile << "VAL " << g[i][n].val << '\n';
+            ofile << "VAL " << grid[i][n].val << '\n';
             ofile << '}' << '\n' << '\n';
         }
     }
@@ -426,11 +436,11 @@ void Square::display() const{
 
 void Square::testRun(){
     char ans;
-    bool load;
+    bool ld;
     cout << "Do you want to load?" << endl;
     cin >> ans;
-    load = (ans == 'y');
-    if (load){
+    ld = (ans == 'y') ? true : false;
+    if (ld){
         this->load("./Desktop/CSI_1430/project_final/sudkTest.sudk");
         this->display();
     }

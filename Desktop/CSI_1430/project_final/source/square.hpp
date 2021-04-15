@@ -15,6 +15,7 @@ class Square {
         SUDK::grd grid;
         bool loadGame;
         int difficulty;
+        SUDK::point p;
 
         //Loading/Saving Game
         void load(std::string);
@@ -40,7 +41,6 @@ class Square {
     public:
         //Constructors
         Square();
-        Square(bool);
         
         //Accessors
         SUDK::grd getGrid() const;
