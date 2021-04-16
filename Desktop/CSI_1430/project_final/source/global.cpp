@@ -24,10 +24,6 @@ const char* GLOBAL::getOS(){
     return OS;
 }
 
-void GLOBAL::randomNum(unsigned int &num){
-    srand(time(0));
-    num = rand();
-}
 
 void GLOBAL::randomNum(unsigned int &num, unsigned int amount){
     if (amount == 0){
