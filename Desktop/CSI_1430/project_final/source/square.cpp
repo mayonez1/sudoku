@@ -45,13 +45,14 @@ void Square::setGrid(grd x){
 //Loading/Saving definitions
 grd Square::readSUDK(string filePath){
     grd ret;
-    init_grd(ret);
     bool error;
     ifstream file;
     string extension = ".SUDK";
     for (int i = 0; i < 5; i++){
         extension[i] = toupper(filePath[(filePath.length()-1) - (4 - i)]);
     }
+
+    cout << "Reading From: " << filePath << '\n' << endl;
 
     file.open(filePath);
 
@@ -70,9 +71,6 @@ grd Square::readSUDK(string filePath){
         cerr << e.what() << endl;
         error = true;
     } catch (SUDK::bad_start &e){
-        cerr << e.what() << endl;
-        error = true;
-    } catch (SUDK::bad_end &e){
         cerr << e.what() << endl;
         error = true;
     } catch (SUDK::out_of_range &e){
@@ -114,8 +112,34 @@ void Square::load(string filePath){
 
 }
 
+void Square::load(){
+    string filePath = "sudoku.sudk";
+    grd g;
+    ifstream file;
+    bool error = false;
+
+    try {
+        g = readSUDK(filePath);
+    } catch(SUDK::bad_file &e){
+        cerr << e.what() << endl;
+        error = true;
+    } catch (SUDK::bad_read &e){
+        cerr << e.what() << endl;
+        error = true;
+    }
+
+    if (!error){
+        grid = g;
+    }
+    else {
+        //Return to menu or Reset Program
+    }
+
+}
+
 void Square::save(){
-    ofstream ofile("sudoku.sudk");
+    ofstream ofile;
+    ofile.open("sudoku.sudk");
     int m, cm;
     ofile << "#START" << '\n';
 
@@ -133,12 +157,12 @@ void Square::save(){
             ofile << '}' << '\n' << '\n';
         }
     }
-    ofile << "#END" << '\n';
     ofile.close();
 }
 
 void Square::save(string filePath){
-    ofstream ofile(filePath);
+    ofstream ofile;
+    ofile.open(filePath);
     int m, cm;
     grd g = getGrid();
     ofile << "#START" << '\n';
@@ -157,7 +181,6 @@ void Square::save(string filePath){
             ofile << '}' << '\n' << '\n';
         }
     }
-    ofile << "#END" << '\n';
     ofile.close();
 }
 
@@ -387,7 +410,7 @@ void Square::format(int sk){
 
     for (int i = 0; i < sk; i++){
         randomNum(row, 9, seed1);
-        randomNum(row, 9, seed2);
+        randomNum(col, 9, seed2);
 
         g[row][col].val = ' ';
         g[8-row][8-col].val = ' ';
@@ -409,7 +432,7 @@ void Square::format(){
 
     for (int i = 0; i < 12; i++){
         randomNum(row, 9, seed1);
-        randomNum(row, 9, seed2);
+        randomNum(col, 9, seed2);
 
         g[row][col].val = ' ';
         g[8-row][8-col].val = ' ';
@@ -423,10 +446,9 @@ void Square::format(){
 
 //Display Functions Definitions
 void Square::display() const{
-    grd g = getGrid();
     for (int i = 0; i < 9; i++){
         for (int n = 0; n < 9; n++){
-            cout << g[i][n].val << "   ";
+            cout << grid[i][n].val << "   ";
         }
         cout << endl;
     }
@@ -441,14 +463,14 @@ void Square::testRun(){
     cin >> ans;
     ld = (ans == 'y') ? true : false;
     if (ld){
-        this->load("./Desktop/CSI_1430/project_final/sudkTest.sudk");
+        this->load();
         this->display();
     }
     else {
         this->create();
         this->format();
         this->display();
-        this->save("./Desktop/CSI_1430/project_final/sudkTest.sudk");
+        this->save();
     }
 }
 
