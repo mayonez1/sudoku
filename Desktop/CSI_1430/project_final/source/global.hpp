@@ -11,7 +11,6 @@ namespace GLOBAL{
     const char* getOS();
 
     //Random Functions
-    void randomNum(unsigned int&);
     void randomNum(unsigned int&, unsigned int);
     void randomNum(unsigned int&, unsigned long, unsigned int);
     void _seed(unsigned int&);
