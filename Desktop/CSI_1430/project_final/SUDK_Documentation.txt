@@ -15,3 +15,6 @@ If the point can be modified - CANMOD, CANMODIFY
 If the point has been modified - MODDED, MODIFIED, MOD
 The point character/value - VAL, VALUE
 
+'0' is the placeholder for VAL, setting VAL to '0' (in the file or the program) and then calling display will cause the function to display a space at that
+location.
+
