@@ -1,6 +1,6 @@
 SUDK Filetype Documentation:
 
-Each SUDK file must begin with #START and end with #END (case is irrelevant).
+Each SUDK file must begin with #START (case is irrelevant)
 
 Each SUDK file should begin a block with this '{' character, and end a block with this '}' character.
 
