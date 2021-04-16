@@ -18,6 +18,7 @@ class Square {
         SUDK::point p;
 
         //Loading/Saving Game
+        void load();
         void load(std::string);
         void save();
         void save(std::string);
