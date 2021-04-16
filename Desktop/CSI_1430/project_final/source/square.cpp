@@ -457,6 +457,7 @@ void Square::format(){
 void Square::display() const{
     char out;
     for (int i = 0; i < 9; i++){
+        cout << "|  ";
         for (int n = 0; n < 9; n++){
             if (grid[i][n].val == '0'){
                 out = 32; //ASCII code for space so program doesn't mix it up with a NULL
@@ -464,7 +465,12 @@ void Square::display() const{
             else {
                 out = grid[i][n].val;
             }
-            cout << out << "  |  ";
+            if (grid[i][n].canModify){
+                cout << out << "* |  "; //An asterisk next to the value in the output tells the user that this value can be modified
+            }
+            else {
+                cout << out << "  |  ";
+            }
         }
         cout << endl;
     }
