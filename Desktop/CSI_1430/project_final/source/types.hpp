@@ -43,13 +43,6 @@ namespace SUDK{
         }
     };
 
-    //No #END found in file
-    struct bad_end : public std::exception{
-        const char* what() const throw(){
-            return "Malformed or Missing #END statement";
-        }
-    };
-
     //Row or column out of range
     struct out_of_range : public std::exception{
         const char* what() const throw(){
