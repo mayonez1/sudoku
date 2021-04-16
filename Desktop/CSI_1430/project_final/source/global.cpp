@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-const char* getOS(){
+const char* GLOBAL::getOS(){
     const char* OS;
 
     #ifdef __linux__
@@ -24,24 +24,39 @@ const char* getOS(){
     return OS;
 }
 
-void randomNum(unsigned int &num){
+void GLOBAL::randomNum(unsigned int &num){
     srand(time(0));
     num = rand();
 }
 
-void randomNum(unsigned int &num, unsigned int amount){
-    srand(time(0));
-    num = (rand() % amount);
+void GLOBAL::randomNum(unsigned int &num, unsigned int amount){
+    if (amount == 0){
+        throw GLOBAL::mod_by_0();
+    }
+    else{
+        srand(time(0));
+        num = (rand() % amount);
+    }
 }
 
-void randomNum(unsigned int &num, unsigned int amount, unsigned int seed){
-    srand(seed);
-    num = (rand() % amount);
-}
-
-void randomNum(unsigned int &num, unsigned long amount, unsigned int seed){
+void GLOBAL::randomNum(unsigned int &num, unsigned long amount, unsigned int seed){
     unsigned int am = (unsigned int) amount;
+    if (am == 0){
+        throw GLOBAL::mod_by_0();
+    }
+    else{
+        srand(seed);
+        num = (rand() % am);
+    }
+}
+
+void GLOBAL::_seed(unsigned int& num){
+    srand(time(0));
+    num = rand();
+}
+
+void GLOBAL::_seed(unsigned int& num, unsigned int seed){
     srand(seed);
-    num = (rand() % am);
+    num = rand();
 }
 
