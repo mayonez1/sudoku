@@ -11,6 +11,7 @@
 
 using namespace std;
 using namespace SUDK;
+using namespace GLOBAL;
 
 //Constructor definitions
 Square::Square(){
@@ -331,7 +332,7 @@ void Square::create(){
     vector<vector<char>> dummyRow;
     vector<char> dummyPoint;
     //seed will be used as the random seed
-    unsigned int seed = rand();
+    unsigned int seed;
     //pos will be randomized and will tell the program which value it should pick from availableNums
     unsigned int pos;
     //num is the number that is being guessed
@@ -352,7 +353,7 @@ void Square::create(){
     for (int i = 0; i < 9; i++){
         for (int n = 0; n < 9; n++){
             //Randomizing the seed
-            randomNum(seed);
+            _seed(seed);
 
             //Checks if all available numbers for this point have been used
             //Technically the bool isn't necessary, but it makes the code a bit more readable
@@ -377,7 +378,11 @@ void Square::create(){
             }
             else{
                 //Get a random position in the array
-                randomNum(pos, availableNums.size(), seed);
+                try{
+                    randomNum(pos, availableNums[i][n].size(), seed);
+                } catch (GLOBAL::mod_by_0 &e){
+                    cerr << e.what() << '\n';
+                }
 
                 //Use that position to get a random number out of those available
                 num = availableNums[i][n][pos];
@@ -405,40 +410,44 @@ void Square::format(int sk){
     grd g = getGrid();
     unsigned int seed1, seed2, row, col;
 
-    randomNum(seed1, time(0));
-    randomNum(seed2, seed1);
+    _seed(seed1);
+    _seed(seed2, seed1);
 
     for (int i = 0; i < sk; i++){
         randomNum(row, 9, seed1);
         randomNum(col, 9, seed2);
 
-        g[row][col].val = ' ';
-        g[8-row][8-col].val = ' ';
+        g[row][col].val = '0';
+        g[8-row][8-col].val = '0';
+        g[row][col].canModify = true;
+        g[8-row][8-col].canModify = true;
 
-        randomNum(seed1, seed2);
-        randomNum(seed2, seed1);
+        _seed(seed1, seed2);
+        _seed(seed2, seed1);
     }
 
     setGrid(g);
 }
 
 void Square::format(){
-    //Default difficulty is 12
     grd g = getGrid();
     unsigned int seed1, seed2, row, col;
 
-    randomNum(seed1, time(0));
-    randomNum(seed2, seed1);
+    _seed(seed1);
+    _seed(seed2, seed1);
 
+    //Default difficulty is 12
     for (int i = 0; i < 12; i++){
         randomNum(row, 9, seed1);
         randomNum(col, 9, seed2);
 
-        g[row][col].val = ' ';
-        g[8-row][8-col].val = ' ';
+        g[row][col].val = '0';
+        g[8-row][8-col].val = '0';
+        g[row][col].canModify = true;
+        g[8-row][8-col].canModify = true;
 
-        randomNum(seed1, seed2);
-        randomNum(seed2, seed1);
+        _seed(seed1, seed2);
+        _seed(seed2, seed1);
     }
 
     setGrid(g);
@@ -446,9 +455,16 @@ void Square::format(){
 
 //Display Functions Definitions
 void Square::display() const{
+    char out;
     for (int i = 0; i < 9; i++){
         for (int n = 0; n < 9; n++){
-            cout << grid[i][n].val << "   ";
+            if (grid[i][n].val == '0'){
+                out = 32; //ASCII code for space so program doesn't mix it up with a NULL
+            }
+            else {
+                out = grid[i][n].val;
+            }
+            cout << out << "  |  ";
         }
         cout << endl;
     }
