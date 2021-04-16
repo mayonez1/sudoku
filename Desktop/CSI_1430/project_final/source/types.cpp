@@ -33,19 +33,21 @@ void SUDK::init_grd(grd &g){
 
 ifstream& operator>>(ifstream& file, grd& g){ //g is assumed to have been initialised
     string s;
-    char c, val;
+    char val;
     int input;
-    int count = 0;
     int which = 999;
     bool cont = true, blockEnd = false, end = false;
+    grd g2;
     point p;
-    string validMarkers[11] {"ROW", "COL", "COLUMN", "CANMOD", "CANMODIFY", "MODDED", "MODIFIED", "MOD", "VAL", "VALUE", "}"};
+    string validMarkers[10] {"ROW", "COL", "COLUMN", "CANMOD", "CANMODIFY", "MODDED", "MODIFIED", "MOD", "VAL", "VALUE"};
 
     SUDK::init_point(p);
 
+    SUDK::init_grd(g2);
+
     std::getline(file, s);
 
-    for (int i = 0; i < s.length(); i++){
+    for (unsigned int i = 0; i < s.length(); i++){
         s[i] = toupper(s[i]);
     }
 
@@ -54,11 +56,10 @@ ifstream& operator>>(ifstream& file, grd& g){ //g is assumed to have been initia
         throw SUDK::bad_start();
     }
 
-    while (!file.eof() && cont && !end){
+    while (!file.eof() && cont && !end && file >> s){
 
         if (cont){
-            file.get(c);
-            if (c != '{'){
+            if (s != "{"){
                 cont = false;
                 throw SUDK::malformed_block();
             }
@@ -67,18 +68,18 @@ ifstream& operator>>(ifstream& file, grd& g){ //g is assumed to have been initia
             }
         }
 
-        while(cont && !blockEnd){
+        while(cont && !blockEnd && file >> s && !file.eof()){
 
-            if (count > 200){
+            if (s == "}"){
+                blockEnd = true;
                 cont = false;
-                throw SUDK::malformed_block();
             }
 
             if (cont){
-                file >> s;
-                for (int i = 0; i < s.length(); i++){
+                for (unsigned int i = 0; i < s.length(); i++){
                     s[i] = toupper(s[i]);
                 }
+
                 for (int i = 0; i < 10; i++){
                     which = (s == validMarkers[i]) ? i : which;
                 }
@@ -150,38 +151,30 @@ ifstream& operator>>(ifstream& file, grd& g){ //g is assumed to have been initia
                     
                     case 8:
                     case 9:
-                        file.get(val);
+                        file >> val;
                         p.val = val;
                         break;
-                    case 10:
-                        blockEnd = true;
-                        count = 0;
-                        break;
-                }
+                } 
             }
-            count++;
+            if (blockEnd){
+                cont = true;
+            }
         }
 
         if (cont){
-            g[p.row][p.col] = p;
+            g2[p.row][p.col].val = p.val;
+            g2[p.row][p.col].row = p.row;
+            g2[p.row][p.col].col = p.col;
+            g2[p.row][p.col].canModify = p.canModify;
+            g2[p.row][p.col].modified = p.modified;
         }
 
         SUDK::init_point(p);
-
-        file >> s;
-
-        for (int i = 0; i < s.length(); i++){
-            s[i] = toupper(s[i]);
-        }
-
-        if (s == "#END"){
-            end = true;
-        }
-
-        if (file.eof() && !end){
-            cont = false;
-            throw SUDK::bad_end();
-        }
-
     }
+
+    g.clear();
+    for (int i = 0; i < 9; i++){
+        g.push_back(g2[i]);
+    }
+    return file;
 }
