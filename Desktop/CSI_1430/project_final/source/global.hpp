@@ -19,7 +19,7 @@ namespace GLOBAL{
     //Global Exceptions
     struct mod_by_0 : public std::exception{
         const char* what() const throw(){
-            return "Attempted to modulus by zero";
+            return "Attempted to modulus by zero or a negative";
         }
     };
 

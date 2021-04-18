@@ -26,7 +26,7 @@ const char* GLOBAL::getOS(){
 
 
 void GLOBAL::randomNum(unsigned int &num, unsigned int amount){
-    if (amount == 0){
+    if (amount <= 0){
         throw GLOBAL::mod_by_0();
     }
     else{
@@ -37,7 +37,7 @@ void GLOBAL::randomNum(unsigned int &num, unsigned int amount){
 
 void GLOBAL::randomNum(unsigned int &num, unsigned long amount, unsigned int seed){
     unsigned int am = (unsigned int) amount;
-    if (am == 0){
+    if (am <= 0){
         throw GLOBAL::mod_by_0();
     }
     else{
