@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+- Menu class
+- User Interaction (part of Menu class)
+
 ## [0.0.1] - 2021-04-18
 ### Added
 - This CHAGELOG which should hopefully document any changes made to the project
