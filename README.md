@@ -1,6 +1,6 @@
 # sudoku
 
-For full source documentation refer to sudoku-main/documentation.txt
+For full source documentation refer to sudoku-main/Documentation.md
 
 For compilation instructions or makefile information refer to Part 0 of sudoku-main/documentation.txt
 
