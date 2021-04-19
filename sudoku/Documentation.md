@@ -10,7 +10,7 @@ The project is not really large enough to warrant using precompiled headers and 
 so there are none of those. To compile manually, firstly, you should compile main.cpp into an object file using square.hpp, which (for now) is it's only dependency.
 Next, compile square.cpp into an object file using square.hpp, types.hpp, and global.hpp (in that order).
 Then compile types.cpp into an object file using types.hpp, and global.cpp into an objct file using global.hpp (respectively).
-Finally compile the main binary using main.o, square.o, types.o, and global.o (in that order).</p>
+Finally compile the main binary using main.o, square.o, types.o, and global.o (in that order). (Note: you can still do this, however, I've included compiled object files and the binary executable under sudoku/obj and sudoku/bin respectively).</p>
 
 ### The Makefile
 
