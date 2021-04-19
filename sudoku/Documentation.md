@@ -14,10 +14,10 @@ Finally compile the main binary using main.o, square.o, types.o, and global.o (i
 
 ### The Makefile
 
-<p>The makefile for this project is called make.mak and can be found under the source folder.
+<p>The makefile for this project is called Makefile.mk and can be found under the sudoku folder.
 If you want to compile using the makefile (which is reccommended) cd into the directory where you've saved the source folder,
-(<code>cd /your_directory/sudoku-main/source/</code>), then enter the command <code>make -f make.mak main</code> into your terminal.
-If you want to remove all object files/binaries you can enetr the command <code>make -f make.mak clean</code> (note: this will remove all files with the .o extension in that folder).</p>
+(<code>cd /your_file_path/sudoku/</code>), then enter the command <code>make -f Makefile.mk all</code> into your terminal.
+If you want to remove all object files/binaries you can enetr the command <code>make -f Makefile.mk clean</code> (note: this will remove all files with the .o extension in that folder).</p>
 
 ## ///PART 1 - Types, Operators, and Exceptions///
 
