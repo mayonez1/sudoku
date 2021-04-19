@@ -155,29 +155,6 @@ If the number is removed canModify will be set to true for that point.
 
 </p>
 
-<p>
-
-*I went on a bit of a tangent here, and this is explaining why the format() functions work the way they do*
-
-Currently format() and format(int) will only generate symmetrical sudoku puzzles, the reason for this is so that I don't have to recursively check whether or not
-the puzzle is solvable, because all symmetrical puzzles are by nature solvable. This also means that difficulty does not have to be determined post-formatting and then
-checked against the value that was passed in. Using symmetrical puzzles allows for an objective standard of difficulty based on the amount of numbers missing from the formatted
-puzzle. This may change in the future, however, to make a non-symmetrical puzzle, and then have the computer solve it, assign a difficulty rating to it, and then re-evaluate the
-formatting based on the comparison between the difficulty that was passed in would not only increase waiting time for the user, but it would also likely require some amount of machine
-learning, which is outside the subject area of this class, and outside my skillset as a programmer. To clarify, when I say solvable, I mean solvable using logical deduction.
-Technically, any sudoku puzzle is solvable if you were to just guess luckily enough, however, this defeats the purpose of soing sudoku in the first place, and so any puzzle that
-requires a significant amount of guessing to solve is deemed to be un-solvable. Additionally, this is the reason machine learnig would need to be implemented in order to determine
-not only to get an accurate difficulty rating for the formatted puzzle, but to also determine if it is solvable by the standards I mentioned previously. Because if I were to say,
-just modify the checking functions in order to make a hypothetical 'bool solvable()' function, I would have to rely on an algorithm that used some sort of brute force or guess and check
-like my create() function does. As a result, I think it's best to just generate symmetrical sudoku puzzles and call it a day. Of course a way around this could be using a web scraper to fetch
-pre-made puzzles, making some puzzles myself, or using a library that implements the machine learning that I was referring to before, however I feel that this sort of defeats the
-entire purpose of the project. One final solution could be to generate random unfinished sudoku puzzles and then determine if they're solvable during generation, however, 
-generation would take significantly longer this way (with the only way to speed it up using some level of machine learning), and determining an accurate difficulty would still require machine
-learning. So, in conclusion, while I could easily give each puzzle generated more variablilty by not using symmetrical pairs, I think it's best I do it this way so that
-I can implement a difficulty system, and ensure that all functions are solvable, however, if I get bored and have some time on my hands, this may change.
-
-</p>
-
 ### Constructors
 
 <p>
