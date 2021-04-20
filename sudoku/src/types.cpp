@@ -178,3 +178,16 @@ ifstream& operator>>(ifstream& file, grd& g){
     }
     return file;
 }
+
+ifstream& operator>>(ifstream& file, SUDK::settings set){
+    string s;
+    int sk;
+
+    file >> s;
+    file >> sk;
+
+    set.savePath = s;
+    set.skill = sk;
+
+    return file;
+}

@@ -7,18 +7,28 @@
 
 #include <vector>
 #include <fstream>
+#include <string>
 
 
 namespace SUDK{
 
-    typedef struct Point{
+    //point data type
+    typedef struct{
         char val;
         bool canModify, modified;
         int row, col;
     } point;
 
+    //grd data type
     typedef std::vector<std::vector<point>> grd;
 
+    //Settings data type
+    typedef struct{
+        std::string savePath;
+        int skill;
+    } settings;
+
+    //Initialisation functions for the data types
     void init_point(point&);
     void init_grd(grd&);
 
@@ -67,12 +77,15 @@ namespace SUDK{
     //Incorrect filetype or location
     struct bad_file : public std::exception{
         const char* what() const throw(){
-            return "Invalid filepath or incorrect file type, please ensure the existence of the .SUDK file";
+            return "Invalid filepath or incorrect file type";
         }
     };
 }
 
-
+//Overloaded operator responsible for making sense of data in .sudk files
 std::ifstream& operator>>(std::ifstream& file, SUDK::grd& g);
+
+//Responsible for getting data from settings.ini file
+std::ifstream& operator>>(std::ifstream& file, SUDK::settings& set);
 
 #endif
