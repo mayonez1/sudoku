@@ -1,3 +1,5 @@
+//square.cpp
+
 #include <square.hpp>
 #include <global.hpp>
 #include <types.hpp>
@@ -29,6 +31,11 @@ Square::Square(){
         grid.push_back(holder);
         holder.clear();
     }
+}
+
+void Square::init(int sk, std::string path){
+    skill = sk;
+    savePath = path;
 }
 
 //Accessor Definitions
@@ -87,38 +94,13 @@ grd Square::readSUDK(string filePath){
     return ret;
 }
 
-void Square::load(string filePath){
-    grd g;
-    ifstream file;
-    bool error = false;
-
-    try {
-        g = readSUDK(filePath);
-    } catch(SUDK::bad_file &e){
-        cerr << e.what() << endl;
-        error = true;
-    } catch (SUDK::bad_read &e){
-        cerr << e.what() << endl;
-        error = true;
-    }
-
-    if (!error){
-        grid = g;
-    }
-    else {
-        //Return to menu or Reset Program
-    }
-
-}
-
 void Square::load(){
-    string filePath = "sudoku.sudk";
     grd g;
     ifstream file;
     bool error = false;
 
     try {
-        g = readSUDK(filePath);
+        g = readSUDK(savePath);
     } catch(SUDK::bad_file &e){
         cerr << e.what() << endl;
         error = true;
@@ -138,30 +120,7 @@ void Square::load(){
 
 void Square::save(){
     ofstream ofile;
-    ofile.open("sudoku.sudk");
-    int m, cm;
-    ofile << "#START" << '\n';
-
-    for (int i = 0; i < 9; i++){
-        for (int n = 0; n < 9; n++){
-            cm = (grid[i][n].canModify) ? 1 : 0;
-            m = (grid[i][n].modified) ? 1 : 0;
-
-            ofile << '{' << '\n';
-            ofile << "ROW " << grid[i][n].row << '\n';
-            ofile << "COL " << grid[i][n].col << '\n';
-            ofile << "CANMOD " << cm << '\n';
-            ofile << "MODDED " << m << '\n';
-            ofile << "VAL " << grid[i][n].val << '\n';
-            ofile << '}' << '\n' << '\n';
-        }
-    }
-    ofile.close();
-}
-
-void Square::save(string filePath){
-    ofstream ofile;
-    ofile.open(filePath);
+    ofile.open(savePath);
     int m, cm;
     grd g = getGrid();
     ofile << "#START" << '\n';
@@ -427,30 +386,6 @@ void Square::format(int sk){
     setGrid(g);
 }
 
-void Square::format(){
-    grd g = getGrid();
-    unsigned int seed1, seed2, row, col;
-
-    _seed(seed1);
-    _seed(seed2, seed1);
-
-    //Default difficulty is 12
-    for (int i = 0; i < 12; i++){
-        randomNum(row, 9, seed1);
-        randomNum(col, 9, seed2);
-
-        g[row][col].val = '0';
-        g[8-row][8-col].val = '0';
-        g[row][col].canModify = true;
-        g[8-row][8-col].canModify = true;
-
-        _seed(seed1, seed2);
-        _seed(seed2, seed1);
-    }
-
-    setGrid(g);
-}
-
 //Display Functions Definitions
 void Square::display() const{
     char out;
@@ -476,6 +411,8 @@ void Square::display() const{
 
 //Wrappers/Executors Definitions
 
+/*
+
 void Square::testRun(){
     char ans;
     bool ld;
@@ -493,3 +430,5 @@ void Square::testRun(){
         this->save();
     }
 }
+
+*/

@@ -13,15 +13,11 @@ class Square {
     private:
         //Class Variables
         SUDK::grd grid;
-        bool loadGame;
-        int difficulty;
+        int skill;
         SUDK::point p;
+        std::string savePath;
 
         //Loading/Saving Game
-        void load();
-        void load(std::string);
-        void save();
-        void save(std::string);
         SUDK::grd readSUDK(std::string);
 
         //Checking Functions
@@ -34,7 +30,6 @@ class Square {
         void replenish(std::vector<char>&);
         void create();
         void format();
-        void format(int);
 
         //Display Functions (Might Move this under menu class)
         void display() const;
@@ -42,6 +37,7 @@ class Square {
     public:
         //Constructors
         Square();
+        void init(int, std::string);
         
         //Accessors
         SUDK::grd getGrid() const;
@@ -49,8 +45,12 @@ class Square {
         //Mutators
         void setGrid(SUDK::grd);
 
+        //Loading/Saving Game
+        void load();
+        void save();
+
         //Wrappers/Executors
-        void testRun();
+        //void testRun();
 
 
 };
