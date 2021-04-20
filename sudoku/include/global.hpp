@@ -4,6 +4,7 @@
 #define _GLOBAL_H_
 
 #include <exception>
+#include <string>
 
 namespace GLOBAL{
 
@@ -15,6 +16,9 @@ namespace GLOBAL{
     void randomNum(unsigned int&, unsigned long, unsigned int);
     void _seed(unsigned int&);
     void _seed(unsigned int&, unsigned int);
+
+    //Fetching functions
+    SUDK::settings fetchSettings(std::string);
 
     //Global Exceptions
     struct mod_by_0 : public std::exception{

@@ -1,8 +1,11 @@
 //global_functions.cpp
 
 #include <global.hpp>
+#include <types.hpp>
 
 #include <iostream>
+#include <string>
+#include <fstream>
 
 const char* GLOBAL::getOS(){
     const char* OS;
@@ -54,5 +57,20 @@ void GLOBAL::_seed(unsigned int& num){
 void GLOBAL::_seed(unsigned int& num, unsigned int seed){
     srand(seed);
     num = rand();
+}
+
+SUDK::settings GLOBAL::fetchSettings(std::string filepath){
+    SUDK::settings ret;
+    std::ifstream f;
+    f.open(filepath);
+
+    if(!f.is_open()){
+        throw SUDK::bad_file();
+    }
+    else{
+        f >> ret;
+    }
+
+    return ret;
 }
 
