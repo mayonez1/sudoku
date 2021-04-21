@@ -22,7 +22,7 @@ If you want to remove all object files/binaries you can enetr the command <code>
 ## ///PART 1 - Types, Operators, and Exceptions///
 
 ### Types
-<p>Currently, the program uses two custom types (defined in types.hpp) - the point type, and the grd type. Both of these are under namespace SUDK.</p>
+<p>Currently, the program uses three custom types (defined in types.hpp) - the point type, the grd type, and the settings type. All of these are under namespace SUDK.</p>
 
 **point Type:**
 
@@ -46,6 +46,14 @@ next to the point value when Square::display() is called.
 **grd Type:**
 
 <p>The grd type (called using SUDK::grd) is the data type for the sudoku grid. It is a 2-Dimensional vector of points.</p>
+
+**settings Type:**
+
+<p>The settings type contains two variables:
+
+- savePath - a string that tells the location to where the program should be saving the .sudk files.
+
+- skill - an int that tells the program how many values to remove when the <code>Square::format()</code> function is run. In other words, it determines how hard the end puzzle will be.
 
 ### Exceptions
 
@@ -86,6 +94,10 @@ next to the point value when Square::display() is called.
 This is the operator that is responsible for doing 90% of the work when Square::load() or Sqaure::readSUDK are called, and allows the program to
 get usable data from .sudk files.</p>
 
+<code>std::ifstream& operator>>(std::ifstream& file, SUDK::settings& set)</code> (Overloaded ifstream >> operator using SUDK::settings):
+
+<p>Responsible for interpreting and taking in data from the settings.txt file, and putting it into an SUDK::settings variable.</p>
+
 ### Future Additions
 
 <p>In the future, new types and exceptions and operators may be added if they're necessary
@@ -102,23 +114,22 @@ and is what will be getting modified by the user using the menu class.
 
 - <code>SUDK::point p</code> - a dummy point used when the Square class constructor is called.
 
+- <code>int skill</code> - determines how hard the final puzzle will be, and is used in <code>Square::format()</code> to determine how many values should be removed from the grid.
+
+- <code>std::string savePath</code> - the filepath where the program saves and loads to, used in <code>Square::save()</code> and <code>Square::load()</code>.
+
 </p>
 
 ### Loading/Saving Functions
 
 <p>
 
-- <code>void load()</code> and <code>void load(std::string)</code> - called when loading a grid from a .sudk file, the optional std::string parameter is the filepath,
-if this is left blank the default filepath is sudoku.sudk and will be saved to the directory the user runs the program from.
+- <code>void load()</code> - called when loading a grid from a .sudk file. The program loads to the filepath in the savePath variable.
 
-- <code>void save()</code> and <code>void save(std::string)</code> - called when saving a grid to a .sudk file. The optional std::string parameter is the filepath to where the
-file is being saved. Like load(), the default filepath is sudoku.sudk in the directory that the user has run the program from. If a file already exists at
-the filepath, it will be overwritten.
+- <code>void save()</code> - called when saving a grid to a .sudk file. The program saves to the filepath in the savePath variable. Currently, the program will overwrite whatever file is at that path, however, this may change in later versions.
 
 - <code>SUDK::grd readSUDK(std::string)</code> - function responsible for reading the SUDK file, contains error handling using the exceptions mentioned in part 1,
 and is called whenever load() or load(std::string) is called. The std::string parameter is the filepath, and is passed directly from the load parameter.
-If load is called without a parameter, "sudoku.sudk" is used as a parameter instead.
-
 </p>
 
 ### Checking Functions
@@ -149,8 +160,8 @@ they all return true, false otherwise. This function essentially exists so that 
 
 - <code>void create()</code> - responsible for doing everything to create a complete sudoku grid (refer to generation_algorithim.txt for more details).
 
-- <code>void format() and void format(int)</code> - responsible for formatting the sudoku grid based on the optional int parameter difficulty. Difficulty represents how
-many symmetrical pairs of points will be taken out at random. By default the difficulty is 12, so therefore 24 numbers will be missing from the grid when called.
+- <code>void format()</code> - responsible for formatting the sudoku grid based on the skill variable. skill represents how
+many symmetrical pairs of points will be taken out at random. By default the skill is 12, so therefore 24 numbers will be missing from the grid when called.
 If the number is removed canModify will be set to true for that point.
 
 </p>
@@ -161,6 +172,8 @@ If the number is removed canModify will be set to true for that point.
 
 - <code>Square()</code> - default Square class constructor fills the grid variable with 9 vectors of 9 points
 where val is set to '0', canModify and modified set to false, and row and col set according to the point's loaction in the vector.
+
+- <code>void init(int, std::string)</code> - not a constructor, however, I put it in the same category because it's also responsible for initialising the Square class. This function sets int skill, and std::string savePath to the parameters passed in.
 
 </p>
 
@@ -183,9 +196,7 @@ where val is set to '0', canModify and modified set to false, and row and col se
 ### Wrappers/Executors
 
 <p>
-
-- <code>void testRun()</code> - run function used for testing/debugging purposes.
-
+This section is currently empty
 </p>
 
 ### Future Additions
@@ -194,7 +205,7 @@ where val is set to '0', canModify and modified set to false, and row and col se
 In the future, functions will likely be added that utilize some sort of data from the upcoming menu class.
 Additionally, some functions may be made public in order to better utilize this menu class data.
 The logic determining which function to call based on menu class data/user inputs will be handled by the
-main.cpp driver.
+sriver.cpp driver.
 </p>
 
 ## ///PART 3 - The GLOBAL namespace and functions///
@@ -231,10 +242,72 @@ the number passed in as the first parameter equal to rand(). If a second paramet
 
 </p>
 
-## ///PART 4 - Menu Class///
+### Fetching Functions
 
-**WIP**
+<p>
 
-## ///PART 5 - Driver/main.cpp///
+- <code>SUDK::settings fetchSettings(std::string)</code> - Gets data from the settings file located at the path passed in as std::string and returns the data as an SUDK::settings variable.
 
-**WIP**
+</p>
+
+## ///PART 4 - Menu Class - WIP///
+
+### Variables
+
+<p>
+
+- <code>enum screen {none, main, settings, grid, commands}</code> and <code>screen currentScreen</code> - tells the program what screen it's currently on so <code>Menu::getCommand(std::ostream&)</code> can react accordingly.
+
+- <code>std::string settingsFilePath</code> - tells the program the filepath to the settings.txt file, so the user can make changes to it from within the program.
+
+</p>
+
+### Constructors 
+
+<p>
+
+- <code>Menu::Menu()</code> - Menu class default constructor.
+
+- <code> void Menu::init(std::string)</code> - again, technically not a constructor, but responsible for initialising the menu class. The parameter, std::string will set the settingsFilePath variable.
+
+</p>
+
+### Private Interaction Functions
+
+<p>
+
+- <code>char Menu::getCommand(std::ostream&)</code> - prompts the user for a command, and gets the command in the form of a char via cin.
+
+- <code>void Menu::doCommand(char)</code> - Executes the command that was recieved by getCommand.
+
+</p>
+
+### Public Interaction Functions
+
+<p>
+
+- <code>void Menu::editGrid(SUDK::grd&)</code> - allows the user to edit and make changes to the grid that is passed by reference.
+
+</p>
+
+### Display Functions
+
+<p>
+
+- <code>void Menu::showMain(std::ostream&) const</code> - prints the main menu to the desired ostream.
+
+- <code>void Menu::showSettings(std::ostream&) const</code> - prints the settings menu to the desired ostream.
+
+- <code>void Menu::showCommands(std::ostream&) const</code> - prints the commands menu to the desired ostream.
+
+</p>
+
+## ///PART 5 - driver.cpp - WIP///
+
+### Arguments
+
+<p>Currently, the user is able to use one argument in the command line to specify the location of the settings.txt file. An example of the argument in use would look something like this: <code>sudoku /path_to_settings/settings.txt</code>. If no argument is used the program will assume the settings.txt file is located at bin/settings/settings.txt. If more that one argument is used, then the program will use only the first argument.</p>
+
+### Future Additions
+
+<p>In the future, I would like to add support for a second command line argument that allows the user to choose a desired ostream, for example: <code>sudoku /path_to_settings/settings.txt cout</code> where cout is the desired ostream.
