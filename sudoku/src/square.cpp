@@ -363,14 +363,15 @@ void Square::create(){
     setGrid(g);
 }
 
-void Square::format(int sk){
+void Square::format(){
     grd g = getGrid();
     unsigned int seed1, seed2, row, col;
 
     _seed(seed1);
     _seed(seed2, seed1);
 
-    for (int i = 0; i < sk; i++){
+    //Default difficulty is 12
+    for (int i = 0; i < skill; i++){
         randomNum(row, 9, seed1);
         randomNum(col, 9, seed2);
 
