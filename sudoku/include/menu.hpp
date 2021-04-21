@@ -26,9 +26,9 @@ class Menu{
         void init(std::string);
 
         //Display Functions
-        void showMain(std::ostream&);
-        void showSettings(std::ostream&);
-        void showCommands(std::ostream&);
+        void showMain(std::ostream&) const;
+        void showSettings(std::ostream&) const;
+        void showCommands(std::ostream&) const;
         
         //Interaction functions
         void editGrid(SUDK::grd&);
