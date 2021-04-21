@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.0.3] 2021-04-20
+### Fixed
+- <code>Square::format()</code> function not correctly utilising the <code>int skill</code> member variable. (square.cpp)
+- Missing "types.hpp" include in global headers file . (global.hpp)
+
+### Changed
+- <code>Menu::showMain(std::ostream&)</code>, <code>Menu::showSettings(std::ostream&)</code>, and <code>Menu::showCommands(std::ostream&)</code> are now const member functions. (menu.hpp)
+- Documentation.md now up to date and has sections added for the Menu class and driver.cpp file (Documentation.md)
+
 ## [0.0.2] - 2021-04-19
 ### Added
 - New settings type (types.cpp/hpp)
