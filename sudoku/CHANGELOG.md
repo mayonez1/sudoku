@@ -10,11 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [0.1.1] 2021-04-27
 ### Fixed
 - Bug that caused the game to be unable to load at times (square.cpp)
+- Bug that caused Hints: ON/OFF to not be displayed until updated by another command (menu.hpp/cpp)
 
 ### Changed
 - When editing the grid, the command to exit is now -e (changed fronm 9 9 9) (menu.cpp)
 - The <code>Square::init(int, string, string)</code> now requires another string parameter to be compatible with new functionality (square.hpp/cpp)
 - 2nd line in settings.txt file now tells the filepath to the <code>SUDK::grd compGrid</code> variable when saving/loading
+- Program will now clear the screen when exited (menu.cpp)
 
 ### Added
 - <code>Menu::editGrid()</code> function now accepts more commands (menu.cpp)
