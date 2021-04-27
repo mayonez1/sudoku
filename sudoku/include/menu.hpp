@@ -7,7 +7,6 @@
 #include <types.hpp>
 
 #include <string>
-#include <iostream>
 
 class Menu{
     private:
@@ -15,23 +14,24 @@ class Menu{
         enum screen {none, main, settings, grid, commands};
         screen currentScreen;
         std::string settingsFilePath;
+        Square mainSquare;
 
         //Interaction Functions
-        char getCommand(std::ostream&);
+        void getCommand();
         void doCommand(char);
 
     public:
         //Constructors
         Menu();
-        void init(std::string);
+        void init(std::string, Square);
 
         //Display Functions
-        void showMain(std::ostream&) const;
-        void showSettings(std::ostream&) const;
-        void showCommands(std::ostream&) const;
-        
+        void showMain();
+        void showSettings();
+        void showCommands();
+
         //Interaction functions
-        void editGrid(SUDK::grd&);
+        void editGrid();
 };
 
 
