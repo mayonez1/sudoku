@@ -28,11 +28,6 @@ class Square {
 
         //Generation Functions
         void replenish(std::vector<char>&);
-        void create();
-        void format();
-
-        //Display Functions (Might Move this under menu class)
-        void display() const;
 
     public:
         //Constructors
@@ -49,9 +44,12 @@ class Square {
         void load();
         void save();
 
-        //Wrappers/Executors
-        //void testRun();
+        //Display Functions (Might Move this under menu class)
+        void display() const;
 
+        //Generation Functions
+        void create();
+        void format();
 
 };
 
