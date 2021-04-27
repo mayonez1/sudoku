@@ -85,7 +85,7 @@ namespace SUDK{
 //Overloaded operator responsible for making sense of data in .sudk files
 std::ifstream& operator>>(std::ifstream& file, SUDK::grd& g);
 
-//Responsible for getting data from settings.ini file
+//Responsible for getting data from settings.txt file
 std::ifstream& operator>>(std::ifstream& file, SUDK::settings& set);
 
 #endif
