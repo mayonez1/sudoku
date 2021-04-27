@@ -58,8 +58,6 @@ grd Square::readSUDK(string filePath){
         extension[i] = toupper(filePath[(filePath.length()-1) - (4 - i)]);
     }
 
-    cout << "Reading From: " << filePath << '\n' << endl;
-
     file.open(filePath);
 
     if (!file.is_open() || extension != ".SUDK"){
@@ -113,7 +111,9 @@ void Square::load(){
         grid = g;
     }
     else {
-        //Return to menu or Reset Program
+        cout << "Could not load SUDK file, please check save filepath in settings.txt file." << endl;
+        cout << "Exiting Program..." << endl;
+        exit(0);
     }
 
 }
