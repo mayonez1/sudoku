@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
+- Full functionality for all Menu class member functions
+- Functionality that checks if the user's filled in square is correct
+- Documentation update for ver. 0.0.5
+
+## [0.0.5] 2021-04-26 - ALPHA VERSION 1
+### Changed
+- <code>Menu::init(std::string, Square)</code> now requires a square as one of it's params (menu.hpp)
+- Menu member display functions are no longer const member functions (menu.hpp)
+- <code>Menu::getCommand()</code> is now a void function (menu.hpp)
+- <code>Menu::doCommand()</code> param changed back to char (menu.hpp)
+- <code>Menu::editGrid()</code> no longer requires a parameter (menu.hpp)
+- <code>int main()</code> no longer takes arguments (this may change in the future) (driver.cpp)
+
+### Fixed
+- Bug caused by not passing by reference with overloaded ifstream >> operator and SUDK::settings data type (types.hpp/cpp)
+
+### Added
+- Partial/near full functionality for all currently existing Menu member functions (menu.cpp)
+- Partially functioning early alpha binaries
+
+## [0.0.4] 2021-04-26
+### Changed
+- Menu member functions no longer require an ostream parameter, all member functions will output via cout
+- <code>Menu::getCommand()</code> now returns a string
+- <code>Menu::doCommand(std::string)</code> now takes a string as it's parameter
 
 ## [0.0.3] 2021-04-20
 ### Fixed
