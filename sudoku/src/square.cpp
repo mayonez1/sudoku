@@ -390,6 +390,7 @@ void Square::format(){
 //Display Functions Definitions
 void Square::display() const{
     char out;
+    cout << "\x1b[1;32m";
     for (int i = 0; i < 9; i++){
         cout << "|  ";
         for (int n = 0; n < 9; n++){
@@ -408,6 +409,7 @@ void Square::display() const{
         }
         cout << endl;
     }
+    cout << "\x1b[0m";
 }
 
 //Wrappers/Executors Definitions

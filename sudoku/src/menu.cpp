@@ -28,10 +28,13 @@ void Menu::getCommand(){
 }
 
 void Menu::doCommand(char com){
+    grd empty;
+    init_grd(empty);
     switch (currentScreen){
         case main:
             switch (com){
                 case '1':
+                    mainSquare.setGrid(empty);
                     mainSquare.create();
                     mainSquare.format();
                     this->editGrid();
