@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 - Full functionality for all Menu class member functions
-- Updated for ver. 0.1.x
+- Updated documentation for ver. 0.1.x
 
 ## [0.1.1] 2021-04-27
 ### Fixed
