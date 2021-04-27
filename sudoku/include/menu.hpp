@@ -15,7 +15,7 @@ class Menu{
         screen currentScreen;
         std::string settingsFilePath;
         Square mainSquare;
-        bool hints = false;
+        bool hints;
 
         //Interaction Functions
         void getCommand();

@@ -12,6 +12,7 @@ using namespace SUDK;
 
 Menu::Menu(){
     currentScreen = none;
+    hints = false;
 }
 
 void Menu::init(string s, Square sqr){
@@ -62,6 +63,8 @@ void Menu::doCommand(char com){
                     this->showCommands();
                     break;
                 case '5':
+                    cout << "\x1b[2J";
+                    cout << "\x1b[H";
                     exit(0);
                     break;
                 default:
@@ -76,13 +79,14 @@ void Menu::doCommand(char com){
                     break;
                 case 'h':
                     hints = !hints;
+                    this->showGridScreen();
                     break;
                 case 'c':
                     showGridScreen();
                     mainSquare.checkUserSquare(hints);
                     break;
                 default:
-                    showGridScreen();
+                    this->showGridScreen();
                     cout << "Please try again and enter a valid command." << endl;
                     this->getCommand();
                     break;
