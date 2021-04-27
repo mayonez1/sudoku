@@ -25,6 +25,7 @@ namespace SUDK{
     //Settings data type
     typedef struct{
         std::string savePath;
+        std::string completePath;
         int skill;
     } settings;
 

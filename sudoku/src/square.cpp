@@ -29,13 +29,15 @@ Square::Square(){
             holder.push_back(p);
         }
         grid.push_back(holder);
+        compGrid.push_back(holder);
         holder.clear();
     }
 }
 
-void Square::init(int sk, std::string path){
+void Square::init(int sk, std::string path, std::string comppath){
     skill = sk;
     savePath = path;
+    compPath = comppath;
 }
 
 //Accessor Definitions
@@ -43,15 +45,23 @@ grd Square::getGrid() const{
     return grid;
 }
 
+grd Square::getCompGrid() const{
+    return compGrid;
+}
+
 //Mutator Definitions
 void Square::setGrid(grd x){
     grid = x;
 }
 
+void Square::setCompGrid(grd x){
+    compGrid = x;
+}
+
 //Loading/Saving definitions
 grd Square::readSUDK(string filePath){
     grd ret;
-    bool error;
+    bool error = false;
     ifstream file;
     string extension = ".SUDK";
     for (int i = 0; i < 5; i++){
@@ -89,12 +99,13 @@ grd Square::readSUDK(string filePath){
         throw SUDK::bad_read();
     }
 
+    file.close();
+
     return ret;
 }
 
 void Square::load(){
-    grd g;
-    ifstream file;
+    grd g, compG;
     bool error = false;
 
     try {
@@ -107,23 +118,36 @@ void Square::load(){
         error = true;
     }
 
+    try {
+        compG = readSUDK(compPath);
+    } catch(SUDK::bad_file &e){
+        cerr << e.what() << endl;
+        error = true;
+    } catch (SUDK::bad_read &e){
+        cerr << e.what() << endl;
+        error = true;
+    }
+
     if (!error){
         grid = g;
+        compGrid = compG;
     }
     else {
         cout << "Could not load SUDK file, please check save filepath in settings.txt file." << endl;
         cout << "Exiting Program..." << endl;
         exit(0);
     }
-
 }
 
 void Square::save(){
-    ofstream ofile;
+    ofstream ofile, compFile;
     ofile.open(savePath);
+    compFile.open(compPath);
     int m, cm;
     grd g = getGrid();
+    grd compG = getCompGrid();
     ofile << "#START" << '\n';
+    compFile << "#START" << '\n';
 
     for (int i = 0; i < 9; i++){
         for (int n = 0; n < 9; n++){
@@ -139,7 +163,23 @@ void Square::save(){
             ofile << '}' << '\n' << '\n';
         }
     }
+
+    for (int i = 0; i < 9; i++){
+        for (int n = 0; n < 9; n++){
+            cm = (compGrid[i][n].canModify) ? 1 : 0;
+            m = (compGrid[i][n].modified) ? 1 : 0;
+
+            compFile << '{' << '\n';
+            compFile << "ROW " << compG[i][n].row << '\n';
+            compFile << "COL " << compG[i][n].col << '\n';
+            compFile << "CANMOD " << cm << '\n';
+            compFile << "MODDED " << m << '\n';
+            compFile << "VAL " << compG[i][n].val << '\n';
+            compFile << '}' << '\n' << '\n';
+        }
+    }
     ofile.close();
+    compFile.close();
 }
 
 
@@ -361,6 +401,7 @@ void Square::create(){
         }
     }
     setGrid(g);
+    setCompGrid(g);
 }
 
 void Square::format(){
@@ -410,6 +451,34 @@ void Square::display() const{
         cout << endl;
     }
     cout << "\x1b[0m";
+}
+
+//Public Checking Function Definitions
+void Square::checkUserSquare(bool hints){
+    vector<point> incorrectPoints;
+    bool correct = true;
+    for (int i = 0; i < 9; i++){
+        for (int n = 0; n < 9; n++){
+            if (this->getGrid()[i][n].val != this->getCompGrid()[i][n].val){
+                correct = false;
+                incorrectPoints.push_back(this->getGrid()[i][n]);
+            }
+        }
+    }
+
+    if (correct){
+        cout << "You solved the puzzle!" << endl;
+    }
+    else {
+        cout << "Puzzle is incorrect. Please try again." << endl;
+    }
+
+    if (hints && !correct){
+        cout << "These are the points that are incorrect: " << endl;
+        for (int i = 0; i < incorrectPoints.size(); i++){
+            cout << '(' << incorrectPoints[i].row << ", " << incorrectPoints[i].col << ')' << " ";
+        }
+    }
 }
 
 //Wrappers/Executors Definitions

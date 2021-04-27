@@ -21,9 +21,21 @@ void Menu::init(string s, Square sqr){
 
 void Menu::getCommand(){
     char com;
-    cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+    cout << '\n';
+    cout << "\x1b[k";
+    cout << "\x1b[5;2mAwaiting Command..." << "\x1b[0m";
     cin >> com;
-    cout << com << endl;
+    doCommand(com);
+}
+
+void Menu::getCommand(bool commandText){
+    char com;
+    if (commandText){
+        cout << '\n';
+        cout << "\x1b[k";
+        cout << "\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+    }
+    cin >> com;
     doCommand(com);
 }
 
@@ -57,16 +69,28 @@ void Menu::doCommand(char com){
                     this->getCommand();
                     break;
             }
+        case grid:
+            switch(com){
+                case 'e':
+                    this->showMain();
+                    break;
+                case 'h':
+                    hints = !hints;
+                    break;
+                case 'c':
+                    showGridScreen();
+                    mainSquare.checkUserSquare(hints);
+                    break;
+                default:
+                    showGridScreen();
+                    cout << "Please try again and enter a valid command." << endl;
+                    this->getCommand();
+                    break;
+            }
     }
 }
 
-void Menu::editGrid(){
-    grd g;
-    char row, col, val;
-    bool exit = false;
-    currentScreen = grid;
-    g = mainSquare.getGrid();
-
+void Menu::showGridScreen(){
     cout << "\x1b[2J";
     cout << "\x1b[H";
 
@@ -74,18 +98,44 @@ void Menu::editGrid(){
     cout << "\n\n";
     cout << "To edit a point, type in the row, column, and value you wish to change the point to." << endl;
     cout << "For example, if you wanted to change the calue at row 1, column 3 to 6, you would type: 1 3 6" << endl;
-    cout << "To Exit, simply type 9 9 9" << endl;
+    cout << endl;
+    cout << "To Exit, simply type -e" << endl;
+    cout << "To check your solved grid, type -c" << endl;
+    cout << "To toggle hints, type -h" << endl;
+    cout << "\n\n";
+
+    if (hints){
+        cout << "Hints: ON" << "\n\n";
+    }
+    else {
+        cout << "Hints: OFF" << "\n\n";
+    }
+}
+
+void Menu::editGrid(){
+    grd g;
+    char row, col, val;
+    bool command = false;
+    currentScreen = grid;
+    g = mainSquare.getGrid();
+
+    this->showGridScreen();
     
     do{
         cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
-        cin >> row >> col >> val;
-        cout << row << " " << col << " " << val << endl;
+        cin >> row;
 
-        if (row == '9' || col == '9'){
-            exit = true;
+        if (row == '-'){
+            getCommand(false);
+            command = true;
+        }
+        else{
+            cin >> col >> val;
+            cout << row << " " << col << " " << val << endl;
+            command = false;
         }
 
-        if (!exit){
+        if (!command){
             row -= 48;
             col -= 48;
 
@@ -96,20 +146,16 @@ void Menu::editGrid(){
             else {
                 g[row][col].val = val;
                 g[row][col].modified = true;
-                cout << "\x1b[2J";
-                cout << "\x1b[H";
                 mainSquare.setGrid(g);
-                mainSquare.display();
+                mainSquare.save();
+                showGridScreen();
             }
         }
-
-    } while (!exit);
-
-    mainSquare.save();
-    this->showMain();
+    } while (currentScreen == grid);
 }
 
 void Menu::showMain(){
+    currentScreen = main;
     cout << "\x1b[2J";
     cout << "\x1b[H";
     cout << "\x1b[1;36m                                                                              " << "\x1b[0m" << endl;
@@ -135,7 +181,6 @@ void Menu::showMain(){
     cout << endl;
     cout << endl;
     cout << "1. New\n2. Load\n3. Settings\n4. Help\n5. Exit" << endl;
-    currentScreen = main;
     getCommand();
 }
 

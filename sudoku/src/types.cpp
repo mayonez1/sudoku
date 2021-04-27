@@ -180,14 +180,16 @@ ifstream& operator>>(ifstream& file, grd& g){
 }
 
 ifstream& operator>>(ifstream& file, SUDK::settings& set){
-    string s;
+    string s, s2;
     int sk;
 
     file >> s;
+    file >> s2;
     file >> sk;
 
     set.savePath = s;
     set.skill = sk;
+    set.completePath = s2;
 
     return file;
 }

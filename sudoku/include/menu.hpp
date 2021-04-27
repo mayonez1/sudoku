@@ -15,9 +15,11 @@ class Menu{
         screen currentScreen;
         std::string settingsFilePath;
         Square mainSquare;
+        bool hints = false;
 
         //Interaction Functions
         void getCommand();
+        void getCommand(bool);
         void doCommand(char);
 
     public:
@@ -29,6 +31,7 @@ class Menu{
         void showMain();
         void showSettings();
         void showCommands();
+        void showGridScreen();
 
         //Interaction functions
         void editGrid();

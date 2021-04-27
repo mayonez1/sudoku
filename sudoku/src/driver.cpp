@@ -13,7 +13,7 @@ int main(){
     string settingsPath = "settings/settings.txt";
     SUDK::settings userSettings;
     int skill;
-    string savePath;
+    string savePath, compPath;
     Menu myMenu;
     Square mySquare;
 
@@ -21,7 +21,8 @@ int main(){
 
     skill = userSettings.skill;
     savePath = userSettings.savePath;
-    mySquare.init(skill, savePath);
+    compPath = userSettings.completePath;
+    mySquare.init(skill, savePath, compPath);
     myMenu.init(settingsPath, mySquare);
 
     myMenu.showMain();

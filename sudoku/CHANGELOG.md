@@ -5,10 +5,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 - Full functionality for all Menu class member functions
-- Functionality that checks if the user's filled in square is correct
-- Documentation update for ver. 0.0.5
+- Updated for ver. 0.1.x
 
-## [0.0.5] 2021-04-26 - ALPHA VERSION 1
+## [0.1.1] 2021-04-27
+### Fixed
+- Bug that caused the game to be unable to load at times (square.cpp)
+
+### Changed
+- When editing the grid, the command to exit is now -e (changed fronm 9 9 9) (menu.cpp)
+- The <code>Square::init(int, string, string)</code> now requires another string parameter to be compatible with new functionality (square.hpp/cpp)
+- 2nd line in settings.txt file now tells the filepath to the <code>SUDK::grd compGrid</code> variable when saving/loading
+
+### Added
+- <code>Menu::editGrid()</code> function now accepts more commands (menu.cpp)
+- <code>Menu::getCommand(bool)</code> overload with boolean param - the boolean tells the function whether or not to print "Awaiting Command..." (menu.hpp/cpp)
+- <code>Menu::showGridScreen()</code> function - displays the current grid (menu.hpp/cpp)
+- <code>Square::getCompGrid()</code> and <code>Square::setCompGrid(SUDK::grd)</code> functions - mutators and accessors for the new <code>SUDK::grd compGrid</code> variable (square.hpp/cpp)
+- #### Checking Functionality:
+> - <code>SUDK::grd compGrid</code> square member variable - holds the completed (non-formatted) grid (square.hpp)
+> - <code>Square::checkUserSquare</code> function - responsible for checking the grid that is currently being edited (<code>SUDK::grd grid</code>) against the completed and correct grid (<code>SUDK::grd compGrid</code>) (square.hpp/cpp)
+- New file in sudoku/saves called "completegrid.sudk" which is the default save/load location for the <code>SUDK::grd compGrid</code> variable
+
+### Updated
+- Square class default constructor updated with support for new <code>SUDK::grd compGrid</code> variable (square.cpp)
+- <code>Square::save()</code>, <code>Square::load()</code>, and <code>Square::init(int, string, string)</code> updated to support new <code>SUDK::grd compGrid</code> variable (square.cpp)
+- <code>Square::create()</code> function will now also set the <code>SUDK::grd compGrid</code> variable at the end (square.cpp)
+- <code>SUDK::settings</code> data type and ifstream >> operator overload for settings data type updated to support a filepath for the <code>SUDK::grd compGrid</code> variable (types.hpp/cpp)
+- <code>Menu::doCommand(char)</code> updated to support new <code>Menu::editGrid()</code> commands (menu.cpp)
+
+
+## [0.1.0] 2021-04-26 - ALPHA VERSION 1
 ### Changed
 - <code>Menu::init(std::string, Square)</code> now requires a square as one of it's params (menu.hpp)
 - Menu member display functions are no longer const member functions (menu.hpp)
