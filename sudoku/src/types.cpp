@@ -179,7 +179,7 @@ ifstream& operator>>(ifstream& file, grd& g){
     return file;
 }
 
-ifstream& operator>>(ifstream& file, SUDK::settings set){
+ifstream& operator>>(ifstream& file, SUDK::settings& set){
     string s;
     int sk;
 
