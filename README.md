@@ -24,3 +24,5 @@ A pre-compiled binary can be found under sudoku/bin, and can be run if you're on
 
 Pre-compiled object files (.o and .d files) can be found under sudoku/obj
 
+Program takes 1 optional argument, the settings file location can be changed if the new/non-default file location is specified by the user in the form of an argument, for example, typing <code>sudoku ./mypath/newsettings.txt</code> in your terminal would make the program use ./mypath/newsettings.txt as the filepath to the settings file instead of settings/settings.txt.
+
