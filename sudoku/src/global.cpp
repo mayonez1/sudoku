@@ -71,6 +71,8 @@ SUDK::settings GLOBAL::fetchSettings(std::string filepath){
         f >> ret;
     }
 
+    f.close();
+
     return ret;
 }
 
