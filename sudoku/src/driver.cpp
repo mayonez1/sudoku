@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int main(int argc, const char **argv){
+int main(){
     string settingsPath = "settings/settings.txt";
     SUDK::settings userSettings;
     int skill;
@@ -17,16 +17,14 @@ int main(int argc, const char **argv){
     Menu myMenu;
     Square mySquare;
 
-
-    if (argc >= 1){
-        settingsPath = argv[0];
-    }
-
     userSettings = GLOBAL::fetchSettings(settingsPath);
 
     skill = userSettings.skill;
     savePath = userSettings.savePath;
-    myMenu.init(settingsPath);
     mySquare.init(skill, savePath);
+    myMenu.init(settingsPath, mySquare);
 
+    myMenu.showMain();
+
+    return 0;
 }
