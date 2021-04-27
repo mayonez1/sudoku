@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 - Bug caused by not passing by reference with overloaded ifstream >> operator and SUDK::settings data type (types.hpp/cpp)
+- Bug that caused program to segfault when the new option was selected more than once in the main screen
 
 ### Added
 - Partial/near full functionality for all currently existing Menu member functions (menu.cpp)
