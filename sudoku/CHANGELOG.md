@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - <code>Menu::getCommand(bool)</code> overload with boolean param - the boolean tells the function whether or not to print "Awaiting Command..." (menu.hpp/cpp)
 - <code>Menu::showGridScreen()</code> function - displays the current grid (menu.hpp/cpp)
 - <code>Square::getCompGrid()</code> and <code>Square::setCompGrid(SUDK::grd)</code> functions - mutators and accessors for the new <code>SUDK::grd compGrid</code> variable (square.hpp/cpp)
+- <code>int main()</code> in driver.cpp now supports a single command line argument (driver.cpp)
 - #### Checking Functionality:
 > - <code>SUDK::grd compGrid</code> square member variable - holds the completed (non-formatted) grid (square.hpp)
 > - <code>Square::checkUserSquare</code> function - responsible for checking the grid that is currently being edited (<code>SUDK::grd grid</code>) against the completed and correct grid (<code>SUDK::grd compGrid</code>) (square.hpp/cpp)
