@@ -3,9 +3,10 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
+#include <types.hpp>
+
 #include <exception>
 #include <string>
-#include <types.hpp>
 
 namespace GLOBAL{
 
