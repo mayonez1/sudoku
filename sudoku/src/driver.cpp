@@ -9,13 +9,17 @@
 
 using namespace std;
 
-int main(){
+int main(int argc, const char **argv){
     string settingsPath = "settings/settings.txt";
     SUDK::settings userSettings;
     int skill;
     string savePath, compPath;
     Menu myMenu;
     Square mySquare;
+
+    if (argc > 1){
+        settingsPath = argv[1];
+    }
 
     userSettings = GLOBAL::fetchSettings(settingsPath);
 
