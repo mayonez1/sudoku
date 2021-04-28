@@ -1,5 +1,7 @@
 //types.cpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #include <types.hpp>
 
 #include <string>

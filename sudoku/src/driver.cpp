@@ -1,5 +1,7 @@
 //driver.cpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #include <square.hpp>
 #include <menu.hpp>
 #include <types.hpp>

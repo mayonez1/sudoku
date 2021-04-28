@@ -1,5 +1,7 @@
 //square.hpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #ifndef _SQUARE_H_
 #define _SQUARE_H_
 

@@ -2,6 +2,8 @@
 
 //Includes all types, operators, and exceptions for the sudoku project
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #ifndef _TYPES_H_
 #define _TYPES_H_
 

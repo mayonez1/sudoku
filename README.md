@@ -1,3 +1,5 @@
+#### Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 # sudoku
 
 ### References texts and the file structure

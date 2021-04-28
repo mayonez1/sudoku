@@ -1,5 +1,7 @@
 //menu.hpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #ifndef _MENU_H_
 #define _MENU_H_
 

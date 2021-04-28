@@ -1,3 +1,5 @@
+#### Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 # Documentation
 
 ## ///PART 0 - Compilation, the Makefile, and Command-Line Arguments///

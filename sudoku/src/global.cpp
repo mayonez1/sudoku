@@ -1,5 +1,7 @@
 //global_functions.cpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #include <global.hpp>
 #include <types.hpp>
 

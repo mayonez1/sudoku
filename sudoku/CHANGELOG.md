@@ -1,3 +1,5 @@
+#### Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 # Changelog
 All notable changes to this project will be documented in this file.
 
@@ -6,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased]
 - Updated documentation for current version
 
-## [0.2.1]
+## [0.2.1] 2021-04-28
 ### Added
 - Compatibility for systems without ANSI escape code support
 - -a command line argument to enable/disable ANSI escape codes

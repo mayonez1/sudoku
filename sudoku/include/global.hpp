@@ -1,5 +1,7 @@
 //global.hpp
 
+//Project designed and developed by Bryson Weeks and Henry Sartor for Baylor CSI 1430
+
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
