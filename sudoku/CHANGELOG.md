@@ -4,8 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
-- Full functionality for all Menu class member functions
-- Updated documentation for ver. 0.1.x
+- Updated documentation for current version
+
+## [0.2.0] 2021-04-27 - BETA VERSION 1
+### Added
+- <code>GLOBAL::writeSettings(std::string, SUDK::settings)</code> function - responsible for writing to the settings.txt file (global.hpp/cpp)
+- <code>ofstream& operator<<(ofstream&, SUDK::settings)</code> operator - also used in writing to the settings.txt file (types.hpp/cpp)
+- <code>Menu::showDifficulty()</code> function - responsible for showing the difficulty screen (menu.hpp/cpp)
+- Functionality for all Menu class member functions - code is now fully functional!
+
+### Removed
+- <code>Menu::showCommands()</code> function - there simply weren't enough commands to warrant a help/commands menu (menu.hpp)
+
 
 ## [0.1.1] 2021-04-27
 ### Fixed

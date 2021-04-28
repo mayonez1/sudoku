@@ -89,4 +89,7 @@ std::ifstream& operator>>(std::ifstream& file, SUDK::grd& g);
 //Responsible for getting data from settings.txt file
 std::ifstream& operator>>(std::ifstream& file, SUDK::settings& set);
 
+//Responsible for writing data to the settings.txt file
+std::ofstream& operator<<(std::ofstream& file, SUDK::settings& set);
+
 #endif

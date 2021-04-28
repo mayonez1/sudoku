@@ -6,6 +6,7 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace SUDK;
@@ -18,6 +19,7 @@ Menu::Menu(){
 void Menu::init(string s, Square sqr){
     settingsFilePath = s;
     mainSquare = sqr;
+    newSettings = GLOBAL::fetchSettings(settingsFilePath);
 }
 
 void Menu::getCommand(){
@@ -43,6 +45,9 @@ void Menu::getCommand(bool commandText){
 void Menu::doCommand(char com){
     grd empty;
     init_grd(empty);
+    string fileloc;
+    srand(time(0));
+    int sk;
     switch (currentScreen){
         case main:
             switch (com){
@@ -60,18 +65,19 @@ void Menu::doCommand(char com){
                     this->showSettings();
                     break;
                 case '4':
-                    this->showCommands();
+                    this->showDifficulty();
                     break;
-                case '5':
+                case 'e':
                     cout << "\x1b[2J";
                     cout << "\x1b[H";
                     exit(0);
                     break;
                 default:
+                    this->showMain();
                     cout << "Please try again and enter a valid command." << endl;
-                    this->getCommand();
                     break;
             }
+            break;
         case grid:
             switch(com){
                 case 'e':
@@ -88,9 +94,91 @@ void Menu::doCommand(char com){
                 default:
                     this->showGridScreen();
                     cout << "Please try again and enter a valid command." << endl;
-                    this->getCommand();
                     break;
             }
+            break;
+        case settings:
+            switch (com){
+                case 'e':
+                    this->showMain();
+                    break;
+                case '1':
+                    cout << "\x1b[2J";
+                    cout << "\x1b[H";
+                    cout << "Enter the location of the file you would like to use as a save file for the editable grid (No Spaces): " << endl;
+                    cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+                    cin >> fileloc;
+                    newSettings.savePath = fileloc;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showSettings();
+                    break;
+                case '2':
+                    cout << "\x1b[2J";
+                    cout << "\x1b[H";
+                    cout << "Enter the location of the file you would like to use as a save file for the complete grid (No Spaces): " << endl;
+                    cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+                    cin >> fileloc;
+                    newSettings.completePath = fileloc;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showSettings();
+                    break;
+                default:
+                    this->showSettings();
+                    cout << "Please try again and enter a valid command." << endl;
+                    break;
+            }
+            break;
+        case difficulty:
+            switch (com){
+                case 'e':
+                    this->showMain();
+                    break;
+                case '1':
+                    sk = (rand() % 12) + 2;
+                    newSettings.skill = sk;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showMain();
+                    break;
+                case '2':
+                    sk = (rand() % 12) + 12;
+                    newSettings.skill = sk;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showMain();
+                    break;
+                case '3':
+                    sk = (rand() % 12) + 24;
+                    newSettings.skill = sk;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showMain();
+                    break;
+                case '4':
+                    sk = (rand() % 12) + 36;
+                    newSettings.skill = sk;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showMain();
+                    break;
+                case '5':
+                    sk = (rand() % 12) + 48;
+                    newSettings.skill = sk;
+                    GLOBAL::writeSettings(settingsFilePath, newSettings);
+                    mainSquare.init(newSettings.skill, newSettings.savePath, newSettings.completePath);
+                    this->showMain();
+                    break;
+                default:
+                    this->showMain();
+                    cout << "Please try again and enter a valid command." << endl;
+                    break;
+            }
+            break;
+    default:
+        this->showMain();
+        break;
     }
 }
 
@@ -98,10 +186,12 @@ void Menu::showGridScreen(){
     cout << "\x1b[2J";
     cout << "\x1b[H";
 
+    cout << "\x1b[1;4;36mGrid Editor\n\n" << "\x1b[0m";
     mainSquare.display();
     cout << "\n\n";
     cout << "To edit a point, type in the row, column, and value you wish to change the point to." << endl;
-    cout << "For example, if you wanted to change the calue at row 1, column 3 to 6, you would type: 1 3 6" << endl;
+    cout << "For example, if you wanted to change the value at row 0, column 3 to 6, you would type: 0 3 6" << endl;
+    cout << "Additionally, note that you are only able to edit spaces marked with a * character." << endl;
     cout << endl;
     cout << "To Exit, simply type -e" << endl;
     cout << "To check your solved grid, type -c" << endl;
@@ -120,12 +210,14 @@ void Menu::editGrid(){
     grd g;
     char row, col, val;
     bool command = false;
+    bool error = false;
     currentScreen = grid;
     g = mainSquare.getGrid();
 
     this->showGridScreen();
     
     do{
+        error = false;
         cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
         cin >> row;
 
@@ -133,10 +225,26 @@ void Menu::editGrid(){
             getCommand(false);
             command = true;
         }
-        else{
-            cin >> col >> val;
-            cout << row << " " << col << " " << val << endl;
-            command = false;
+
+        else if (row >= 48 && row <= 56){
+            cin >> col;
+            if (col >= 48 && col <= 56){
+                cin >> val;
+                command = false;
+            }
+            else {
+                command = true;
+                error = true;
+            }
+        }
+
+        else {
+            command = true;
+            error = true;
+        }
+
+        if (error){
+            cout << "Please enter a valid command, or proper combination of row, column, and value" << endl;
         }
 
         if (!command){
@@ -159,6 +267,8 @@ void Menu::editGrid(){
 }
 
 void Menu::showMain(){
+    char cmd;
+    int currentSk = (newSettings.skill / 12);
     currentScreen = main;
     cout << "\x1b[2J";
     cout << "\x1b[H";
@@ -184,20 +294,126 @@ void Menu::showMain(){
     cout << "\x1b[3mA Game By Bryson Weeks and Henry Sartor" << "\x1b[0m" << endl;
     cout << endl;
     cout << endl;
-    cout << "1. New\n2. Load\n3. Settings\n4. Help\n5. Exit" << endl;
-    getCommand();
+    cout << "1. New\n2. Load\n3. Settings\n4. Change Difficulty" << endl;
+    cout << "\nCurrent Difficulty Level: ";
+
+    switch (currentSk){
+        case 0:
+            cout << "Baby" << endl;
+            break;
+        case 1:
+            cout << "Easy" << endl;
+            break;
+        case 2:
+            cout << "Medium" << endl;
+            break;
+        case 3:
+            cout << "Hard" << endl;
+            break;
+        case 4:
+            cout << "Nightmare" << endl;
+            break;
+        case 5:
+            cout << "Nightmare" << endl;
+            break;
+        default:
+            cout << "None???" << endl;
+            break;
+    }
+
+    cout << "\nType -e to quit the program" << endl;
+    cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+    cin >> cmd;
+    if (cmd == '-'){
+        getCommand(false);
+    }
+    else {
+        doCommand(cmd);
+    }
+    
 }
 
-void Menu::showCommands(){
+void Menu::showDifficulty(){
+    currentScreen = difficulty;
+    char cmd;
+    bool cont = true;
     cout << "\x1b[2J";
     cout << "\x1b[H";
-    cout << "sample text" << endl;
-    this->getCommand();
+    cout << "\x1b[1;4;36mChange Difficulty\n\n" << "\x1b[0m";
+    cout << "1. I'm too young to die" << endl;
+    cout << "2. Hey, not too rough" << endl;
+    cout << "3. Hurt me plenty" << endl;
+    cout << "4. Ultra Violence" << endl;
+    cout << "5. Nightmare!" << endl;
+    cout << "\nType -e to exit" << endl;
+
+    do{
+        cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+        cin >> cmd;
+        
+        switch (cmd){
+            case '-':
+                getCommand(false);
+                cont = false;
+                break;
+            case '1':
+                doCommand(cmd);
+                cont = false;
+                break;
+            case '2':
+                doCommand(cmd);
+                cont = false;
+                break;
+            case '3':
+                doCommand(cmd);
+                cont = false;
+                break;
+            case '4':
+                doCommand(cmd);
+                cont = false;
+                break;
+            case '5':
+                doCommand(cmd);
+                cont = false;
+                break;
+            default:
+                cout << "\nPlease enter a valid command." << endl;
+                break; 
+        }
+    } while(cont);
+
 }
 
 void Menu::showSettings(){
+    currentScreen = settings;
+    char cmd;
+    bool cont = true;
     cout << "\x1b[2J";
     cout << "\x1b[H";
-    cout << "sample text" << endl;
-    this->getCommand();
+    cout << "\x1b[1;4;36mSettings\n\n" << "\x1b[0m";
+    cout << "1. Edit user puzzle save location\n2. Edit complete puzzle save location\n";
+    cout << "Type -e to exit" << endl;
+    
+    do {
+        cout << "\n\x1b[5;2mAwaiting Command..." << "\x1b[0m";
+        cin >> cmd;
+        
+        switch (cmd){
+            case '-':
+                getCommand(false);
+                cont = false;
+                break;
+            case '1':
+                doCommand(cmd);
+                cont = false;
+                break;
+            case '2':
+                doCommand(cmd);
+                cont = false;
+                break;
+            default:
+                cout << "\nPlease enter a valid command." << endl;
+                break;
+        }
+    } while (cont);
 }

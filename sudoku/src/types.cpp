@@ -193,3 +193,9 @@ ifstream& operator>>(ifstream& file, SUDK::settings& set){
 
     return file;
 }
+
+ofstream& operator<<(ofstream& file, SUDK::settings& set){
+    file << set.savePath << '\n';
+    file << set.completePath << '\n';
+    file << set.skill << '\n';
+}

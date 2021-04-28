@@ -431,9 +431,11 @@ void Square::format(){
 //Display Functions Definitions
 void Square::display() const{
     char out;
-    cout << "\x1b[1;32m";
+    cout << "\x1b[1;36m";
+    cout << "     0     1     2     3     4     5     6     7     8   " << endl;
     for (int i = 0; i < 9; i++){
-        cout << "|  ";
+        cout << "---------------------------------------------------------" << endl;
+        cout << i << " |  ";
         for (int n = 0; n < 9; n++){
             if (grid[i][n].val == '0'){
                 out = 32; //ASCII code for space so program doesn't mix it up with a NULL
@@ -475,7 +477,7 @@ void Square::checkUserSquare(bool hints){
 
     if (hints && !correct){
         cout << "These are the points that are incorrect: " << endl;
-        for (int i = 0; i < incorrectPoints.size(); i++){
+        for (unsigned int i = 0; i < incorrectPoints.size(); i++){
             cout << '(' << incorrectPoints[i].row << ", " << incorrectPoints[i].col << ')' << " ";
         }
     }

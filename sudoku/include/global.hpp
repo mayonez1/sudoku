@@ -22,6 +22,9 @@ namespace GLOBAL{
     //Fetching functions
     SUDK::settings fetchSettings(std::string);
 
+    //Writing functions
+    void writeSettings(std::string, SUDK::settings);
+
     //Global Exceptions
     struct mod_by_0 : public std::exception{
         const char* what() const throw(){

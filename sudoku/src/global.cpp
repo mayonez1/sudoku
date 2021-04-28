@@ -59,6 +59,18 @@ void GLOBAL::_seed(unsigned int& num, unsigned int seed){
     num = rand();
 }
 
+void GLOBAL::writeSettings(std::string filepath, SUDK::settings set){
+    std::ofstream of;
+    of.open(filepath);
+    if (!of.is_open()){
+        throw SUDK::bad_file();
+    }
+    else {
+        of << set;
+    }
+    of.close();
+}
+
 SUDK::settings GLOBAL::fetchSettings(std::string filepath){
     SUDK::settings ret;
     std::ifstream f;

@@ -11,16 +11,18 @@
 class Menu{
     private:
         //Class Variables
-        enum screen {none, main, settings, grid, commands};
+        enum screen {none, main, settings, grid, difficulty};
         screen currentScreen;
         std::string settingsFilePath;
         Square mainSquare;
         bool hints;
+        SUDK::settings newSettings;
 
         //Interaction Functions
         void getCommand();
         void getCommand(bool);
         void doCommand(char);
+        void editGrid();
 
     public:
         //Constructors
@@ -30,11 +32,8 @@ class Menu{
         //Display Functions
         void showMain();
         void showSettings();
-        void showCommands();
+        void showDifficulty();
         void showGridScreen();
-
-        //Interaction functions
-        void editGrid();
 };
 
 
