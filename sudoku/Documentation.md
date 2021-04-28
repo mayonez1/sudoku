@@ -1,23 +1,18 @@
 # Documentation
 
-## ///PART 0 - Compilation and the makefile///
+## ///PART 0 - Compilation, the Makefile, and Command-Line Arguments///
 
-### Compilation
+### Compilation and the Makefile
 
-<p>Using the makefile is reccomended and it uses g++ as the compiler, if you don't have/don't want to use g++ or the makefile you will have to compile manually.
-(Note that the makefile uses Linux terminal syntax and commands, so you may be unable to compile using the makefile if you don't have Linux or a Linux shell)
-The project is not really large enough to warrant using precompiled headers and I also don't really like precompiled headers,
-so there are none of those. To compile manually, firstly, you should compile main.cpp into an object file using square.hpp, which (for now) is it's only dependency.
-Next, compile square.cpp into an object file using square.hpp, types.hpp, and global.hpp (in that order).
-Then compile types.cpp into an object file using types.hpp, and global.cpp into an objct file using global.hpp (respectively).
-Finally compile the main binary using main.o, square.o, types.o, and global.o (in that order). (Note: you can still do this, however, I've included compiled object files and the binary executable under sudoku/obj and sudoku/bin respectively).</p>
+<p>
+If you're using Linux, BSD, MACOS, or some other UNIX-like with support for make, the use of sudoku/Makefile.mk is highly reccommended. Alternatively, you could also use the precompiled binary that comes included in the download, under sudoku/bin, and run the program directly. If you're on Windows however, you will have to compile from source. All header files/includes (.hpp files) can be found under sudoku/include, and all source code (.cpp files) can be found under sudoku/src. Additionally, all of the .d files under sudoku/obj should give you a good amount of information on what is specifically required to compile each object. A D compiler could also hypothetically be used to expedite this process, however, it has not been tested.
+</p>
 
-### The Makefile
+### Command-Line Arguments
 
-<p>The makefile for this project is called Makefile.mk and can be found under the sudoku folder.
-If you want to compile using the makefile (which is reccommended) cd into the directory where you've saved the source folder,
-(<code>cd /your_file_path/sudoku/</code>), then enter the command <code>make -f Makefile.mk all</code> into your terminal.
-If you want to remove all object files/binaries you can enetr the command <code>make -f Makefile.mk clean</code> (note: this will remove all files with the .o extension in that folder).</p>
+<p>
+The program accepts 2 command line arguments, delimited by -f and -a. Using -f and then typing a filename or filepath allows you to use a settings file other than the one at sudoku/settings/settings.txt. Naturally, the new file used should follow the same formatting as the original settings file, with the filepath to the save of the editable grid on the first line, the filepath to the save of the completed grid on the second line, and a difficulty value ranging from 1-60 on the 3rd line. Using -a and then typing 0 or 1, allows you to toggle off/on ANSI colours, formatting, and escape codes (with 0 being off and 1 being on). By default, whether ANSI is on or off is dependant on your operating system. If you are using Linux, MACOSX, BSD, Cygwin, or any Unix-like, ANSI will be enabled, otherwise ANSI is disabled by default (this includes Windows). The use of ANSI is highly reccomended as it makes the UX significantly better, so you should make sure to enable it if your machine completely supports it.
+</p>
 
 ## ///PART 1 - Types, Operators, and Exceptions///
 
@@ -54,6 +49,8 @@ next to the point value when Square::display() is called.
 - savePath - a string that tells the location to where the program should be saving the .sudk files.
 
 - skill - an int that tells the program how many values to remove when the <code>Square::format()</code> function is run. In other words, it determines how hard the end puzzle will be.
+
+- completePath - a string that tells the program where it should be saving the .sudk files of the completed/filled in grids.
 
 ### Exceptions
 
@@ -98,10 +95,9 @@ get usable data from .sudk files.</p>
 
 <p>Responsible for interpreting and taking in data from the settings.txt file, and putting it into an SUDK::settings variable.</p>
 
-### Future Additions
+<code>std::ofstream& operator<<(std::ofstream& file, SUDK::settings& set);</code> (Overloaded ofstream << operator using SUDK::settings):
 
-<p>In the future, new types and exceptions and operators may be added if they're necessary
-for the menu class/any other additions that may be made.</p>
+<p>Responsible for writing the user edited settings to the settings.txt file.</p>
 
 ## ///PART 2 - The Square Class///
 
@@ -112,11 +108,15 @@ for the menu class/any other additions that may be made.</p>
 - <code>SUDK::grd grid</code> - this is the main sudoku grid for the class. This is what is getting displayed when Square::display() is called
 and is what will be getting modified by the user using the menu class.
 
+- <code>SUDK::grd compGrid</code> - this is the completed/filled in grid that the main, user-edited grid is checked against.
+
 - <code>SUDK::point p</code> - a dummy point used when the Square class constructor is called.
 
 - <code>int skill</code> - determines how hard the final puzzle will be, and is used in <code>Square::format()</code> to determine how many values should be removed from the grid.
 
 - <code>std::string savePath</code> - the filepath where the program saves and loads to, used in <code>Square::save()</code> and <code>Square::load()</code>.
+
+- <code>std::string compPath</code> - the filepath where the program saves and loads the completed grids to
 
 </p>
 
@@ -148,6 +148,8 @@ using row and col parameters. Returns true if it is unique, false otherwise.
 - <code>bool check(char num, int row, int col, SUDK::grd grid) const</code> - runs all 3 checking functions (checkCell, checkRow, checkCol) and return true if
 they all return true, false otherwise. This function essentially exists so that I can just call 1 check function in the create() function.
 
+- <code>void checkUserSquare(bool)</code> - checks the user edited grid against the completed grid and tells the user if their guess is correct or incorrect.
+
 </p>
 
 ### Generation Functions
@@ -173,7 +175,7 @@ If the number is removed canModify will be set to true for that point.
 - <code>Square()</code> - default Square class constructor fills the grid variable with 9 vectors of 9 points
 where val is set to '0', canModify and modified set to false, and row and col set according to the point's loaction in the vector.
 
-- <code>void init(int, std::string)</code> - not a constructor, however, I put it in the same category because it's also responsible for initialising the Square class. This function sets int skill, and std::string savePath to the parameters passed in.
+- <code>void init(int, std::string, std::string)</code> - not a constructor, however, I put it in the same category because it's also responsible for initialising the Square class. This function sets int skill, std::string savePath, and std::string compPath to the parameters passed in, in that order.
 
 </p>
 
@@ -183,6 +185,8 @@ where val is set to '0', canModify and modified set to false, and row and col se
 
 - <code>SUDK::grd getGrid() const</code> - accessor function that returns grid.
 
+- <code>SUDK::grd getCompGrid() const</code> - accessor function that returns the completed grid.
+
 </p>
 
 ### Mutators
@@ -191,21 +195,8 @@ where val is set to '0', canModify and modified set to false, and row and col se
 
 - <code>void setGrid(SUDK::grd)</code> - sets grid equal to the parameter passed in.
 
-</p>
+- <code>void setCompGrid(SUDK::grd)</code> - sets compGrid equal to the parameter passed in.
 
-### Wrappers/Executors
-
-<p>
-This section is currently empty
-</p>
-
-### Future Additions
-
-<p>
-In the future, functions will likely be added that utilize some sort of data from the upcoming menu class.
-Additionally, some functions may be made public in order to better utilize this menu class data.
-The logic determining which function to call based on menu class data/user inputs will be handled by the
-sriver.cpp driver.
 </p>
 
 ## ///PART 3 - The GLOBAL namespace and functions///
@@ -214,14 +205,7 @@ sriver.cpp driver.
 
 <p>
 
-- <code>const char* getOS()</code> - returns the OS the machine is running on in the form of a string literal.
-It has returns for Linux, 32 Bit Windows, 64 Bit Windows, OSX, and Unix. If it encounters anything else
-it will return "Other". The function uses macros and the g++ OS tags to determine the OS. I'm pretty sure it will
-return "UNIX" on machines running BSD or on some older PowerPC Macintosh computers, but I'm not entirely sure. And I
-literally have no clue what it will return for POSIX based systems (as in I'm not sure if it will return "UNIX" or "OTHER").
-Currently, this function is not being utilised, however, it may be used in the future, to, for example, make a apecific sudoku saves
-directory under the documents folder or something like that. Additionally, if I ever decided to implement a GUI or multithreading,
-this would give me compatibility across platforms, and allow my program to run on non linux (or even non x86) machines.
+- <code>const char* getOS()</code> - returns the OS the user is running. Determines whether ANSI is enabled or disabled by default, and as it is a pre-processor derivative it is determined when the code is compiled, not when it is run.
 
 </p>
 
@@ -250,15 +234,29 @@ the number passed in as the first parameter equal to rand(). If a second paramet
 
 </p>
 
-## ///PART 4 - Menu Class - WIP///
+## ///PART 4 - Menu Class///
+
+### Menu_noANSI class
+
+<p>
+
+Completely the same as the normal Menu class, except without the ANSI formatting that the normal Menu class uses.
+
+</p>
 
 ### Variables
 
 <p>
 
-- <code>enum screen {none, main, settings, grid, commands}</code> and <code>screen currentScreen</code> - tells the program what screen it's currently on so <code>Menu::getCommand(std::ostream&)</code> can react accordingly.
+- <code>enum screen {none, main, settings, grid, difficulty}</code> and <code>screen currentScreen</code> - tells the program what screen it's currently on so <code>Menu::getCommand(std::ostream&)</code> can react accordingly.
 
 - <code>std::string settingsFilePath</code> - tells the program the filepath to the settings.txt file, so the user can make changes to it from within the program.
+
+- <code>Square mainSquare</code> - the main square that will be used and worked in by the user.
+
+- <code>bool hints</code> - tells whether or not hints have been toggled by the user, false by default.
+
+- <code>SUDK::settings newSettings</code> - the settings file that is changed by the user, and what will be written to the settings file when the user makes a change.
 
 </p>
 
@@ -268,7 +266,7 @@ the number passed in as the first parameter equal to rand(). If a second paramet
 
 - <code>Menu::Menu()</code> - Menu class default constructor.
 
-- <code> void Menu::init(std::string)</code> - again, technically not a constructor, but responsible for initialising the menu class. The parameter, std::string will set the settingsFilePath variable.
+- <code> void Menu::init(std::string, Square)</code> - again, technically not a constructor, but responsible for initialising the menu class. The first parameter sets the settingsFilePath, and the second parameter sets the mainSquare.
 
 </p>
 
@@ -276,17 +274,11 @@ the number passed in as the first parameter equal to rand(). If a second paramet
 
 <p>
 
-- <code>char Menu::getCommand(std::ostream&)</code> - prompts the user for a command, and gets the command in the form of a char via cin.
+- <code>void Menu::getCommand()</code> and <code>void Menu::getCommand(bool)</code> - prompts the user for a command, and gets the command in the form of a char via cin. The optional boolean parameter tells the program to toggle the prompt on/off.
 
 - <code>void Menu::doCommand(char)</code> - Executes the command that was recieved by getCommand.
 
-</p>
-
-### Public Interaction Functions
-
-<p>
-
-- <code>void Menu::editGrid(SUDK::grd&)</code> - allows the user to edit and make changes to the grid that is passed by reference.
+- <code>void Menu::editGrid()</code> - Allows the user to edit the grid in mainSquare.
 
 </p>
 
@@ -294,20 +286,12 @@ the number passed in as the first parameter equal to rand(). If a second paramet
 
 <p>
 
-- <code>void Menu::showMain(std::ostream&) const</code> - prints the main menu to the desired ostream.
+- <code>void Menu::showMain()</code> - prints the main menu, and waits for a command.
 
-- <code>void Menu::showSettings(std::ostream&) const</code> - prints the settings menu to the desired ostream.
+- <code>void Menu::showSettings()</code> - prints the settings menu, and waits for a command.
 
-- <code>void Menu::showCommands(std::ostream&) const</code> - prints the commands menu to the desired ostream.
+- <code>void Menu::Difficulty()</code> - prints the difficulty menu, and waits for a command.
+
+- <code>void Menu::showGridScreen()</code> - responsible for refreshing and updating the program when the user has changed a value in the grid. Basically, prints the grid screen and waits for a command.
 
 </p>
-
-## ///PART 5 - driver.cpp - WIP///
-
-### Arguments
-
-<p>Currently, the user is able to use one argument in the command line to specify the location of the settings.txt file. An example of the argument in use would look something like this: <code>sudoku /path_to_settings/settings.txt</code>. If no argument is used the program will assume the settings.txt file is located at bin/settings/settings.txt. If more that one argument is used, then the program will use only the first argument.</p>
-
-### Future Additions
-
-<p>In the future, I would like to add support for a second command line argument that allows the user to choose a desired ostream, for example: <code>sudoku /path_to_settings/settings.txt cout</code> where cout is the desired ostream.

@@ -455,6 +455,30 @@ void Square::display() const{
     cout << "\x1b[0m";
 }
 
+void Square::display_noANSI() const{
+    char out;
+    cout << "     0     1     2     3     4     5     6     7     8   " << endl;
+    for (int i = 0; i < 9; i++){
+        cout << "---------------------------------------------------------" << endl;
+        cout << i << " |  ";
+        for (int n = 0; n < 9; n++){
+            if (grid[i][n].val == '0'){
+                out = 32; //ASCII code for space so program doesn't mix it up with a NULL
+            }
+            else {
+                out = grid[i][n].val;
+            }
+            if (grid[i][n].canModify){
+                cout << out << "* |  "; //An asterisk next to the value in the output tells the user that this value can be modified
+            }
+            else {
+                cout << out << "  |  ";
+            }
+        }
+        cout << endl;
+    }
+}
+
 //Public Checking Function Definitions
 void Square::checkUserSquare(bool hints){
     vector<point> incorrectPoints;

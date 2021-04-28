@@ -14,14 +14,24 @@ const char* GLOBAL::getOS(){
     OS = "LINUX";
     #elif __APPLE__ || __MACH__
     OS = "MACOSX";
+    #elif __CYGWIN__
+    OS = "CYGWIN";
     #elif _WIN32
     OS = "WIN32";
     #elif _WIN64
-    OS = "WIN64"
+    OS = "WIN64";
+    #elif _WIN16
+    OS = "WIN16";
+    #elif __WIN32__ || __TOS_WIN__ || __WINDOWS__ || _WIN32_WCE
+    OS = "WIN_OTHER";
+    #elif MSDOS || __MSDOS__ || _MSDOS || __DOS__
+    OS = "DOS";
+    #elif __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __bsdi__ || __DragonFly__
+    OS = "BSD";
     #elif __unix || __unix__
-    OS = "UNIX"
+    OS = "UNIX";
     #else
-    OS = "OTHER"
+    OS = "OTHER";
     #endif
 
     return OS;

@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased]
 - Updated documentation for current version
 
+## [0.2.1]
+### Added
+- Compatibility for systems without ANSI escape code support
+- -a command line argument to enable/disable ANSI escape codes
+- <code>Menu_noANSI</code> class - same as the normal Menu class, except without the ANSI escape codes
+- <code>Square::display_noANSI()</code> function - again, same as the normal <code>Square::display()</code> function, but without the ANSI escape codes
+
+### Changed
+- To run the program without the default settings.txt file, you must now type -f and then your filepath as a command line argument
+
+### Updated
+- <code>GLOBAL::getOS()</code> function now has support for more operating systems
+
 ## [0.2.0] 2021-04-27 - BETA VERSION 1
 ### Added
 - <code>GLOBAL::writeSettings(std::string, SUDK::settings)</code> function - responsible for writing to the settings.txt file (global.hpp/cpp)

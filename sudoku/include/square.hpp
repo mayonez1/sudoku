@@ -50,6 +50,7 @@ class Square {
 
         //Display Functions (Might Move this under menu class)
         void display() const;
+        void display_noANSI() const;
 
         //Generation Functions
         void create();
