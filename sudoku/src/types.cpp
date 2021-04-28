@@ -200,4 +200,6 @@ ofstream& operator<<(ofstream& file, SUDK::settings& set){
     file << set.savePath << '\n';
     file << set.completePath << '\n';
     file << set.skill << '\n';
+
+    return file;
 }
