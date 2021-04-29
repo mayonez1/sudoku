@@ -12,28 +12,28 @@
 #include <string>
 
 
-namespace SUDK{
+namespace SUDK{ //Namespace for all of the custom types, and most of the custom exceptions in the program
 
     //point data type
-    typedef struct{
+    typedef struct{ //Holds the value as character data, the row and column as int data, and if the point has been modified/if it can be modified as boolean data
         char val;
         bool canModify, modified;
         int row, col;
     } point;
 
     //grd data type
-    typedef std::vector<std::vector<point>> grd;
+    typedef std::vector<std::vector<point>> grd; //2d vector of a point
 
     //Settings data type
-    typedef struct{
-        std::string savePath;
+    typedef struct{ //Holds the savePath (where the editable grid will be saved) as a string, the compPath (where the complete/filled inf grid will be saved) as a string
+        std::string savePath; //and the difficulty/skill value that the user has set
         std::string completePath;
         int skill;
     } settings;
 
     //Initialisation functions for the data types
-    void init_point(point&);
-    void init_grd(grd&);
+    void init_point(point&); //Initialises the point data type
+    void init_grd(grd&); //Initialises the grd data type
 
     //Incorrect Marker type, refer to SUDK_Documentation for details
     struct bad_marker : public std::exception{

@@ -6,7 +6,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
-- Updated documentation for current version
+
+## [0.2.2] 2021-04-29
+### Added
+- More commenting in all .hpp files, and in the driver.cpp file
+- settingsWIN.txt file that has modified file paths for the default grid save locations
+
+### Updated
+- README.md file had a few lines added regarding compatibility for Windows systems
+
+### Fixed
+- Fixed issue where Windows users may not be able to run the program due to using '/' instead of '\' in the default settings location.
 
 ## [0.2.1] 2021-04-28
 ### Added

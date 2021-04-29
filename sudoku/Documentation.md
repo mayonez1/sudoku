@@ -16,6 +16,18 @@ If you're using Linux, BSD, MACOS, or some other UNIX-like with support for make
 The program accepts 2 command line arguments, delimited by -f and -a. Using -f and then typing a filename or filepath allows you to use a settings file other than the one at sudoku/settings/settings.txt. Naturally, the new file used should follow the same formatting as the original settings file, with the filepath to the save of the editable grid on the first line, the filepath to the save of the completed grid on the second line, and a difficulty value ranging from 1-60 on the 3rd line. Using -a and then typing 0 or 1, allows you to toggle off/on ANSI colours, formatting, and escape codes (with 0 being off and 1 being on). By default, whether ANSI is on or off is dependant on your operating system. If you are using Linux, MACOSX, BSD, Cygwin, or any Unix-like, ANSI will be enabled, otherwise ANSI is disabled by default (this includes Windows). The use of ANSI is highly reccomended as it makes the UX significantly better, so you should make sure to enable it if your machine completely supports it.
 </p>
 
+### Running the Program
+
+<p>
+It is highly reccomended that you cd into the sudoku folder when running the program, and it is also highly reccommended that if you compile from source, that you put the compiled binary in the sudoku/bin folder to ensure compatibility.
+</p>
+
+### For Windows Users
+
+<p>
+If the program does not start, and throws an error along the lines of "invalid filepath or incorrect file type", it likely means the program is using an incorrect path for the settings.txt file. The program should account for the differences in how Windows filepaths are written by using a backslash instead of a slash for the default settings.txt filepath, however, if it does not, or it's throwing the error mentioned above, please use the -f argument explained above when running the program. Also, if when running the program the screens seem to be ill-formatted or broken, please use the -a 0 argument as explained above.
+</p>
+
 ## ///PART 1 - Types, Operators, and Exceptions///
 
 ### Types
